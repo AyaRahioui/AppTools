@@ -1,0 +1,71 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+    background-color: #1a1a2e;
+    display: flex;
+
+}
+.form-container {
+    display: block;
+    max-width: 300px;
+    margin: auto;
+    position: relative;
+    top: 15%;
+    background: #eceff1;
+    padding: 48px;
+    border-radius: 16px;
+    mat-form-field {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+  }
+  
+  @media (max-width: 1024px) {
+   .form-container {
+    top: 0%;
+    left: 5px;
+    }
+    img{
+        display: none;
+    }
+  }
+  
+  @media (min-width: 768px)  {
+   .form-container {
+      top: 0%;
+      left: 25%;
+      transform: translateX(-50%);
+    }
+
+  }
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.text-center {
+  text-align: center;
+}
+button{
+    width: 54%;
+    margin-bottom: 20px;
+}
+
+a{
+  text-decoration: none;
+  color: #0b0b81;
+  cursor: pointer;
+  position: relative;
+  left: 24px;
+}
+

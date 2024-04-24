@@ -1,0 +1,130 @@
+$borderRadius: 10px;
+$spacer: 0.7rem;
+$primary: #a3adbf;
+$text: #111230;
+$linkHeight: $spacer * 4.1;
+$timing: 250ms;
+$transition: $timing ease all;
+
+@mixin gooeyEffect($i) {
+  @keyframes gooeyEffect-#{$i} {
+    0% {
+      transform: scale(1, 1);
+    }
+    50% {
+      transform: scale(0.5, 1.5);
+    }
+    100% {
+      transform: scale(1, 1);
+    }
+  }
+}
+
+body {
+  background: #eaeef6;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.navbar {
+  position: fixed;
+  top: $spacer;
+  left: $spacer;
+  background: #6382db;
+  border-radius: $borderRadius;
+  padding: $spacer 0;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.03);
+  height: calc(100vh - #{$spacer * 4});
+  width: 70px; /* Modification de la largeur en pixels */
+}
+
+.navbar__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3.87rem;
+  width: 50px; /* Ajustement de la largeur des liens */
+  color: $text;
+  transition: $transition;
+  top: -10px;
+}
+
+
+
+.navbar__menu, .navbar__item {
+  list-style-type: none;
+}
+img{
+
+  width: 37px;
+  position: relative;
+  left: -33px;
+  top: 5px;
+}
+.navbar__link span {
+  position: absolute;
+  left: 32%;
+  transform: translate(-$spacer * 3);
+  margin-left: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  color: #111230;
+  background: #fff;
+  padding: $spacer * 0.75;
+  transition: $transition;
+  border-radius: $borderRadius * 1.75;
+}
+
+.navbar__link:hover {
+  color: #fff;
+}
+
+.navbar:not(:hover) .navbar__link:focus span,
+.navbar__link:hover span {
+  opacity: 1;
+  transform: translate(0);
+}
+
+.navbar__menu {
+  position: relative;
+}
+
+.navbar__item:last-child:before {
+  content: '';
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+  top: 0;
+  left: $spacer;
+  width: $linkHeight;
+  height: $linkHeight;
+  background: $primary;
+  border-radius: $borderRadius * 1.75;
+  transition: $timing cubic-bezier(1, 0.2, 0.1, 1.2) all;
+}
+
+@for $i from 1 to 12 {
+  .navbar__item:first-child:nth-last-child(#{$i}),
+  .navbar__item:first-child:nth-last-child(#{$i}) ~ .navbar__item {
+    &:hover {
+      ~ .navbar__item:last-child:before {
+        opacity: 1;
+      }
+    }
+    &:last-child:hover:before {
+      opacity: 1;
+    }
+    @for $j from 1 to $i {
+      &:nth-child(#{$j}):hover ~ .navbar__item:last-child:before {
+        @include gooeyEffect($j);
+        top: (100% / $i) * ($j - 1);
+        animation: gooeyEffect-#{$j} $timing 1;
+      }
+    }
+    &:last-child:hover:before {
+      @include gooeyEffect($i);
+      top: (100% / $i) * ($i - 1);
+      animation: gooeyEffect-#{$i} $timing 1;
+    }
+  }
+}

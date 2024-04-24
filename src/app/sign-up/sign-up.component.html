@@ -1,0 +1,83 @@
+<body>
+    <div class="form-container mat-elevation-z5">
+      <h1>S'inscrire</h1>
+      <form [formGroup]="signUpForm" (ngSubmit)="register()">
+       
+        <mat-form-field class="example-full-width">
+            <mat-label>Prénom</mat-label>
+            <input matInput placeholder="Ex. Aya" formControlName="firstname" />
+            <mat-error *ngIf="signUpForm.get('firstname')?.invalid && (signUpForm.get('firstname')?.dirty || signUpForm.get('firstname')?.touched)">
+              Veuillez entrer nom valide (au moin 3 caractères).
+            </mat-error>
+          </mat-form-field>
+    
+          <mat-form-field class="example-full-width">
+            <mat-label>Nom</mat-label>
+            <input matInput placeholder="Ex. Rahioui" formControlName="lastname" />
+            <mat-error *ngIf="signUpForm.get('lastname')?.invalid && (signUpForm.get('lastname')?.dirty || signUpForm.get('lastname')?.touched)">
+              Veuillez entrer prénom valide (au moin 3 caractères).
+            </mat-error>
+          </mat-form-field>
+
+       <mat-form-field class="example-full-width">
+        <mat-label>Adresse e-mail</mat-label>
+        <input matInput placeholder="Ex. Aya@gmail.com" formControlName="email" />
+        <mat-error *ngIf="signUpForm.get('email')?.invalid && (signUpForm.get('email')?.dirty || signUpForm.get('email')?.touched)">
+          Veuillez entrer une adresse e-mail valide.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Mot de passe</mat-label>
+        <input matInput  type="password" placeholder="Password" formControlName="password" />
+        <mat-error *ngIf="signUpForm.get('password')?.invalid && (signUpForm.get('password')?.dirty || signUpForm.get('password')?.touched)">
+          Le mot de passe doit contenir au moins 6 caractères.
+        </mat-error>
+      </mat-form-field>
+  
+        <div class="center margin-top">
+          <button type="submit" mat-raised-button color="primary">s'inscrire</button>
+        </div>
+      </form>
+      <span class="center margin-top">
+        Vous avez déjà un compte? 
+        <a class="sign-up-link" routerLink="/login"> Se connecter !</a>
+      </span>
+    </div>
+  
+    <img src="./assets/img/login.svg" alt="attribution illustration" class="h-48 w-48 sm:w-64 sm:h-64 lg:mr-6 lg:ml-8">
+  </body>
+  
+  <!--
+    
+  
+  
+  
+  <body>
+    <div class="row">
+        <h2>Login</h2>
+        <hr/>
+    </div>
+      <div class="row">
+           <div class="col-sm-6">
+              <form>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="text" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" class="form-control" id="stname" placeholder="Enter Email"/>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" class="form-control" id="stname" placeholder="Enter Password"/>
+                  </div>
+                <br>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary" (click)="login()">Login</button>
+                  </div>
+       
+                </form>
+           </div>
+      </div>
+    </body>
+  
+  
+  -->
