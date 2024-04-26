@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
+import { Token } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 // import * as jwt from 'jsonwebtoken';
-
 // Use the jsonwebtoken package here
 
 
@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private toast: HotToastService) { }
 
   ngOnInit(): void {
-    this.loadUsers();
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -50,21 +49,57 @@ export class LoginComponent implements OnInit {
 
   loadUsers(): void {
     this.http.get<any>('http://localhost:3000/user/getAll')
-      .subscribe(
-        (response) => {
-          this.users = response.message.map((user: any) => {
-            return {
-              email: user.email, 
-              role: user.role 
-            };
-          });
-        
-          console.log('users:', this.users);
-          this.storeUsers(this.users);
-        }
-        
-      );
-  }
+        .subscribe(
+            (response) => {
+                this.users = response.message.map((user: any) => {
+                    return {
+                        email: user.email, 
+                        role: user.role 
+                    };
+                });
+
+                console.log('users:', this.users);
+                this.storeUsers(this.users);
+
+              // Récupérer le jeton JWT depuis le stockage local
+let jwt = localStorage.getItem('token');
+console.log('jwt :'+jwt)
+// Vérifier si le jeton JWT est présent
+if (jwt) {
+    // Diviser le jeton JWT pour obtenir les données de charge utile
+    let jwtData = jwt.split('.')[1];
+
+    // Décoder les données JSON de la charge utile du jeton JWT
+    let decodedJwtJsonData = window.atob(jwtData);
+
+    // Parser les données JSON décodées du jeton JWT
+    let decodedJwtData = JSON.parse(decodedJwtJsonData);
+
+    // Vérifier si l'utilisateur est un administrateur
+    let role = decodedJwtData.role;
+    this.redirectBasedOnRole(role);
+    // console.log('jwtData'+jwtData)
+    // console.log('decodedJwtJsonData'+decodedJwtJsonData)
+    // console.log('decodedJwtData'+decodedJwtData)
+    // console.log('role'+role)
+
+    // Utiliser la valeur de isAdmin comme nécessaire
+} else {
+    // Gérer le cas où aucun jeton JWT n'est présent dans le stockage local
+    console.error("Aucun jeton JWT n'est présent dans le stockage local.");
+}
+
+
+
+
+                // // Récupérer le chemin de redirection depuis la propriété de la requête
+                // const redirectPath = response.redirectPath;
+
+                // // Naviguer vers le chemin de redirection
+                // this.router.navigate([redirectPath]);
+            }
+        );
+}
 
   storeUsers(Users: any[]): void {
     this.storedUsers = Users;
@@ -81,54 +116,47 @@ export class LoginComponent implements OnInit {
   }
 
 
-  
   login() {
     if (this.loginForm.valid) {
-      const email = this.loginForm.get('email')?.value;
-      const password = this.loginForm.get('password')?.value;
-  
-      // Vérifiez si l'email existe dans les utilisateurs stockés
-     
-      const role = this.getRoleByEmail(email) ;
-     
-      if (role) {
-        const bodyData = {
-          email: email,
-          password: password,
-        };
-  /*
- 
-  
-  
-  */
+        const email = this.loginForm.get('email')?.value;
+        const password = this.loginForm.get('password')?.value;
 
+        const bodyData = {
+            email: email,
+            password: password,
+        };
 
         this.http.post("http://localhost:3000/user/login", bodyData).subscribe((resultData: any) => {
-          if (resultData.status) {
-            const token = resultData.token;
-            this.toast.success('Connexion réussie!');
-            console.log(token);
-            //const user = JWT.verify(token,secret)  
-        
-            //cookie set (dans le )
+            if (resultData.status) {
+             
+                this.toast.success('Connexion réussie!');
+                const token = resultData.token;
+                localStorage.setItem('token', token);
+                console.log(token)
+                this.loadUsers();
+                // Récupérer le chemin de redirection depuis la réponse
+                // const redirectPath = resultData.redirectPath;
+                //  console.log(redirectPath)
+                // // Naviguer vers le chemin de redirection
+                // this.router.navigate([redirectPath]);
 
-            localStorage.setItem('token', token);
-            
-// if (token) {
-//   try {
-//     const decodedToken = jwt.verify(token, 'votre_secret');
-//     console.log(decodedToken);
-//     // Ici, vous pouvez utiliser les informations du token décodé
-//   } catch (error) {
-//     console.error('Erreur de vérification du token :', error);
-//     // Gérer l'erreur de vérification du token
-//   }
-// } else {
-//   console.error('Token non trouvé dans le localStorage.');
-//   // Gérer le cas où le token n'est pas trouvé dans le localStorage
-// }
+            } else {
+                this.toast.error("Email ou mot de passe incorrect");
+            }
+        }, (error) => {
+            console.error('Error logging in:', error);
+            this.toast.error("Email ou mot de passe incorrect");
+        });
+    } else {
+        this.loginForm.markAllAsTouched();
+        this.toast.error("Veuillez remplir tous les champs correctement");
+    }
+}
 
-            // -vérifier si il ya un changement de token-
+
+  
+  
+   // -vérifier si il ya un changement de token-
             //// middleware->localStorage.getItem(token)
                         //dans le server 
             //verify si authentifié , //   const user = jwt.verify(token, 'secret') ;
@@ -137,26 +165,6 @@ export class LoginComponent implements OnInit {
                       //navigate
            //}
 
-            this.redirectBasedOnRole(role);
-          } else {
-            this.toast.error("Email ou mot de passe incorrect");
-          }
-        }, (error) => {
-          console.error('Error logging in:', error);
-          this.toast.error("Email ou mot de passe incorrect");
-        });
-      } else {
-        this.toast.error("Email non trouvé");
-      }
-    } else {
-      // Marquez les champs du formulaire comme touchés pour afficher les messages d'erreur
-      this.loginForm.markAllAsTouched();
-      this.toast.error("Veuillez remplir tous les champs correctement");
-    }
-  }
-  
-  
-  
 }
 
 
