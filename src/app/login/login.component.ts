@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
-import * as jwt from 'jsonwebtoken';
+// import * as jwt from 'jsonwebtoken';
 
 // Use the jsonwebtoken package here
 
@@ -27,36 +27,6 @@ export class LoginComponent implements OnInit {
   }
 
 
-  // login() {
-  //   if (this.loginForm.valid) {
-  //     const email = this.loginForm.get('email')?.value;
-  //     const password = this.loginForm.get('password')?.value;
-  
-  //     const bodyData = {
-  //       email: email,
-  //       password: password,
-  //     };
-  
-  //     this.http.post("http://localhost:3000/user/login", bodyData).subscribe((resultData: any) => {
-  //       if (resultData.status) {
-  //         this.toast.success('Connexion réussie!');
-  //         sessionStorage.setItem('token', resultData.token);
-  //         sessionStorage.setItem('role', resultData.role);
-  //         this.redirectBasedOnRole(resultData.role);
-  //         console.log(resultData);
-  //       } else {
-  //         this.toast.error("Email ou mot de passe incorrect");
-  //       }
-  //     }, (error) => {
-  //       console.error('Error logging in:', error);
-  //       this.toast.error("Email ou mot de passe incorrect");
-  //     });
-  //   } else {
-  //     // Mark form fields as touched to display error messages
-  //     this.loginForm.markAllAsTouched();
-  //     this.toast.error("Veuillez remplir tous les champs correctement");
-  //   }
-  // }
   
   redirectBasedOnRole(role: string) {
     switch (role) {
@@ -144,19 +114,19 @@ export class LoginComponent implements OnInit {
 
             localStorage.setItem('token', token);
             
-if (token) {
-  try {
-    const decodedToken = jwt.verify(token, 'votre_secret');
-    console.log(decodedToken);
-    // Ici, vous pouvez utiliser les informations du token décodé
-  } catch (error) {
-    console.error('Erreur de vérification du token :', error);
-    // Gérer l'erreur de vérification du token
-  }
-} else {
-  console.error('Token non trouvé dans le localStorage.');
-  // Gérer le cas où le token n'est pas trouvé dans le localStorage
-}
+// if (token) {
+//   try {
+//     const decodedToken = jwt.verify(token, 'votre_secret');
+//     console.log(decodedToken);
+//     // Ici, vous pouvez utiliser les informations du token décodé
+//   } catch (error) {
+//     console.error('Erreur de vérification du token :', error);
+//     // Gérer l'erreur de vérification du token
+//   }
+// } else {
+//   console.error('Token non trouvé dans le localStorage.');
+//   // Gérer le cas où le token n'est pas trouvé dans le localStorage
+// }
 
             // -vérifier si il ya un changement de token-
             //// middleware->localStorage.getItem(token)
@@ -188,58 +158,6 @@ if (token) {
   
   
 }
-
-  // login() {
-  //   if (this.loginForm.valid) {
-  //     const email = this.loginForm.get('email')?.value;
-  //     const password = this.loginForm.get('password')?.value;
-
-  //     this.http.post<any>("http://localhost:3000/user/login", { email, password })
-  //       .pipe(
-  //         tap((resultData: any) => {
-  //           if (resultData.status) {
-  //             sessionStorage.setItem('token', resultData.token);
-  //             sessionStorage.setItem('role', resultData.role);
-  //             this.redirectBasedOnRole(resultData.role);
-  //             console.log(resultData.role);
-  //           } else {
-  //             this.toast.error("Email ou mot de passe incorrect");
-  //           }
-  //         })
-  //       )
-  //       .subscribe(
-  //         () => { },
-  //         (error) => {
-  //           console.error('Error logging in:', error);
-  //           this.toast.error("Erreur lors de la connexion");
-  //         }
-  //       );
-  //   } else {
-  //     this.loginForm.markAllAsTouched();
-  //     this.toast.error("Veuillez remplir tous les champs correctement");
-  //   }
-  // }
-
-
-
-
-  // User.findOne({ email: email }, (err, user) => {
-  //   if (err) {
-  //     return res.status(500).json({ status: false, message: "Erreur lors de la recherche de l'utilisateur." });
-  //   }
-  //   if (!user) {
-  //     return res.status(401).json({ status: false, message: "Email ou mot de passe incorrect." });
-  //   }
-
-  //   // Vérification du mot de passe
-  //   if (!user.isValidPassword(password)) {
-  //     return res.status(401).json({ status: false, message: "Email ou mot de passe incorrect." });
-  //   }
-
-  //   // Si l'utilisateur est trouvé et le mot de passe est correct, renvoyer les informations d'identification et le rôle de l'utilisateur
-  //   const token = generateToken(user); // Générer un token JWT (vous devrez implémenter cette fonction)
-  //   res.status(200).json({ status: true, token: token, role: user.role });
-  // });
 
 
 

@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { PlanComponent } from './plan/plan.component';
+import { InterceptorModule } from './interceptor.module';
 
 
 
@@ -48,7 +49,8 @@ import { PlanComponent } from './plan/plan.component';
     MatIconModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatButtonModule
+    MatButtonModule,
+    InterceptorModule
 
   ],
   providers: [],
