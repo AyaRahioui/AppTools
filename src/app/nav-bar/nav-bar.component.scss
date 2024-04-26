@@ -1,6 +1,6 @@
 $borderRadius: 10px;
 $spacer: 0.7rem;
-$primary: #a3adbf;
+$primary: #e9e6e6;
 $text: #111230;
 $linkHeight: $spacer * 4.1;
 $timing: 250ms;
@@ -69,7 +69,7 @@ img{
   opacity: 0;
   pointer-events: none;
   color: #111230;
-  background: #fff;
+  background: #bac7eb;
   padding: $spacer * 0.75;
   transition: $transition;
   border-radius: $borderRadius * 1.75;
