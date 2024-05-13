@@ -1,0 +1,25 @@
+<?php
+
+
+
+namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+abstract class Plan extends Model {
+    protected $fillable = [
+        'category',
+        'result',
+        'label',
+        'actor',
+        'zone_intervention',
+        'date',
+        'descriptif',
+    ];
+    use HasFactory;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+}
