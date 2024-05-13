@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
+import { TokenService } from '../services/token.service';
+import { AuthService } from '../services/auth.service';
 // import * as jwt from 'jsonwebtoken';
 // Use the jsonwebtoken package here
 
@@ -16,13 +18,14 @@ import { HotToastService } from '@ngneat/hot-toast';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   UserArray: any[] = [];
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private toast: HotToastService) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private toast: HotToastService,private jwt:TokenService,private Auth:AuthService) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
+    this.jwt.remove();
   }
 
 
@@ -48,7 +51,8 @@ export class LoginComponent implements OnInit {
 
 
   loadUsers(): void {
-    this.http.get<any>('http://localhost:3000/user/getAll')
+    this.http.get<any>('http://127.0.0.1:8000/api/user')
+   // this.http.get<any>('http://localhost:3000/user/getAll')
         .subscribe(
             (response) => {
                 this.users = response.message.map((user: any) => {
@@ -125,20 +129,42 @@ if (jwt) {
             email: email,
             password: password,
         };
-
-        this.http.post("http://localhost:3000/user/login", bodyData).subscribe((resultData: any) => {
-            if (resultData.status) {
+      //  this.http.post("http://localhost:3000/user/login", bodyData).subscribe((resultData: any) => {
+        this.http.post("http://127.0.0.1:8000/api/login", bodyData).subscribe((resultData: any) => {
+            if (resultData) {
              
                 this.toast.success('Connexion réussie!');
-                const token = resultData.token;
+                const token = resultData.access_token;
                 localStorage.setItem('token', token);
-                console.log(token)
-                this.loadUsers();
+                console.log(token);
+               this.jwt.handle(token);
+               this.Auth.changeAuthStatus(true);
+              //  this.router.navigate(['/user']);
+              console.log( this.jwt.payload(token));
+              // console.log(   resultData.role);
+              // resultData.role == 'admin' ? this.router.navigate(['/admin']) : this.router.navigate(['/user']);
                 // Récupérer le chemin de redirection depuis la réponse
                 // const redirectPath = resultData.redirectPath;
                 //  console.log(redirectPath)
                 // // Naviguer vers le chemin de redirection
                 // this.router.navigate([redirectPath]);
+                if (token) {
+                  // Diviser le jeton JWT pour obtenir les données de charge utile
+                  let tokenData = token.split('.')[1];
+                  console.log("tokendate:"+tokenData)
+                  // Décoder les données JSON de la charge utile du jeton JWT
+                  let decodedtokenJsonData = window.atob(tokenData);
+                  console.log("decodedtokenJsonData:"+decodedtokenJsonData)
+                  // Parser les données JSON décodées du jeton token
+                  let decodedtokenData = JSON.parse(decodedtokenJsonData);
+                  console.log("decodedtokenData:"+decodedtokenData)
+                  // Vérifier si l'utilisateur est un administrateur
+                  let role = decodedtokenData.role;
+                  console.log("role:"+role)
+                  this.redirectBasedOnRole(role);
+                }
+                
+                
 
             } else {
                 this.toast.error("Email ou mot de passe incorrect");
@@ -151,6 +177,9 @@ if (jwt) {
         this.loginForm.markAllAsTouched();
         this.toast.error("Veuillez remplir tous les champs correctement");
     }
+
+
+    
 }
 
 

@@ -1,0 +1,26 @@
+/* 64ac15 */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+/* body {
+  padding: 1em;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  color: #b9b9b9;
+  background-color: #e3e3e3;
+} */
+h4 {
+  color: #f0a500;
+}
+
+form > div:nth-child(1),
+form > div:nth-child(2) {
+  display: flex;
+  gap: 30px;
+}
+#actions{
+    display: flex;
+    gap:5px;
+}

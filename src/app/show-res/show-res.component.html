@@ -1,0 +1,149 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+<app-nav-bar-admin></app-nav-bar-admin>
+<section class="inner-content">
+
+    <div class="header">
+        <div class="inner-header flex">
+            <h1> Activité</h1>
+
+        </div>
+
+        <div class="titles">
+
+            <button mat-raised-button color="primary" (click)="toggleForm()">Ajouter </button>
+        </div>
+    </div>
+
+
+    <div class="tab">
+        <!-- <img src="./assets/img/res.webp" alt="attribution illustration" class="h-48 w-48 sm:w-64 sm:h-64 lg:mr-6 lg:ml-8"> -->
+
+
+
+
+
+
+
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase" id="headTab">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">N°</th>
+                        <th scope="col" class="px-6 py-3">Activité</th>
+                        <th scope="col" class="px-6 py-3">Description</th>
+                        <th scope="col" class="px-6 py-3">Echéance</th>
+                        <th scope="col" class="px-6 py-3">Libellé</th>
+                        <th scope="col" class="px-6 py-3">
+                            Actions
+
+                        </th>
+                    </tr>
+                </thead>
+                <h1 *ngIf="!isActivityLoaded">Loading.................</h1>
+                <tbody>
+                    <tr *ngFor="let activityItem of activityArray">
+
+                        <td class="px-6 py-4">{{activityItem.id}}</td>
+                        <td class="px-6 py-4">{{activityItem.name}}</td>
+                        <td class="px-6 py-4">{{activityItem.description}}</td>
+                        <td class="px-6 py-4">{{activityItem.dueDate}}</td>
+                        <td class="px-6 py-4">{{activityItem.label}}</td>
+                        <td class="px-6 py-4 text-left">
+                            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                (click)="setUpdate(activityItem)">
+                                <i class="fas fa-pen-square"></i>
+                            </button>
+                            <!-- (click)="setUpdate(FuelItem)"  -->
+                            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                (click)="setDelete(activityItem)">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+
+    <!-- <tr *ngFor="let activityItem of activityArray">
+      <td class="px-6 py-4">{{activityItem.id}}</td>
+      <td class="px-6 py-4">{{activityItem.name}}</td>
+      <td class="px-6 py-4 text-right">
+        <button type="button" class="status shipped" aria-label="Edit">
+          <i class="fas fa-pen-square"></i>
+        </button>
+
+        <button type="button" class="status cancelled"  aria-label="Delete">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+</td>
+    </tr>      -->
+
+
+
+</section>
+
+
+
+<div class="backdrop" [ngClass]="{'popup': showForm}" (click)="toggleForm()" *ngIf="showForm">
+    <div class="containerForm" [ngClass]="{'popup': showForm}">
+
+
+        <div class="container">
+            <form (ngSubmit)="save(); submitted = true;" class="submitted" *ngIf="showForm"
+                (click)="$event.stopPropagation()">
+
+
+
+
+
+
+                <div>
+
+                    <mat-form-field>
+                        <mat-label>Activité</mat-label>
+                        <input matInput type="text" [(ngModel)]="name" id="name" name="name">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Libellé</mat-label>
+                        <input matInput type="text" [(ngModel)]="label" id="label" name="label">
+                    </mat-form-field>
+                  
+
+
+                </div>
+
+
+                <div>
+                    <mat-form-field>
+                        <mat-label>Echéance </mat-label>
+                        <input matInput type="text" [(ngModel)]="dueDate" id="dueDate" name="dueDate">
+                    </mat-form-field>
+                
+                    <mat-form-field >
+                        <mat-label>Description</mat-label>
+                        <textarea matInput [(ngModel)]="description" name="description"></textarea>
+                    </mat-form-field>
+
+
+
+                </div>
+                
+
+
+
+
+               <div  id="actions">
+                    <button type="submit" class="submit" mat-raised-button color="primary">Sauvegarder</button>
+                    <button type="button" class="reset" mat-raised-button color="primary"
+                        (click)="reset()">Réinitialiser</button>
+                    <button type="button" class="reset" mat-raised-button color="primary"
+                        (click)="showForm = false">Annuler</button>
+                </div>
+
+            </form>

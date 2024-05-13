@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
+import { TokenService } from '../services/token.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -13,7 +14,7 @@ export class SignUpComponent implements OnInit {
   signUpForm!: FormGroup;
   errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router,private toast: HotToastService) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router,private toast: HotToastService, private jwt:TokenService) { }
 
 
   ngOnInit(): void {
@@ -23,6 +24,7 @@ export class SignUpComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
+    this.jwt.remove();
   }
 
   
@@ -40,7 +42,7 @@ export class SignUpComponent implements OnInit {
       password: password,
     };
 
-    this.http.post('http://localhost:3000/user/create', bodyData).subscribe(
+    this.http.post('http://127.0.0.1:8000/api/signup', bodyData).subscribe(
       (resultData: any) => {
         console.log(resultData);
          this.toast.success('Utilisateur enregistré avec succès!');

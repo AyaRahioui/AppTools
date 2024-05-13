@@ -6,19 +6,26 @@ import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { UserComponent } from './user/user.component';
 import { PlanComponent } from './plan/plan.component';
+import { ResultComponent } from './result/result.component';
 import { UserAuthGuard } from './user-auth.guard';
 import { DirectorAuthGuard } from './director-auth.guard';
 import { AdminComponent } from './admin/admin.component';
+import { AfterLoginService } from './services/after-login.service';
+import { BeforeLoginService } from './services/before-login.service';
+import { ShowResComponent } from './show-res/show-res.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
   { path: 'login', component:LoginComponent },
   { path: 'sign-up', component:SignUpComponent},
-  { path: 'user', component:UserComponent},
-  { path: 'plan', component:PlanComponent},
-  { path: 'user', component: UserComponent, canActivate: [UserAuthGuard] },
+ { path: 'plan', component:PlanComponent/*,canActivate:[AfterLoginService,DirectorAuthGuard]*/},
+ { path: 'result', component:ResultComponent  /*,canActivate:[AfterLoginService,DirectorAuthGuard]*/},
+  { path: 'user', component: UserComponent , canActivate: [AfterLoginService, UserAuthGuard] },
   { path: 'admin', component: AdminComponent, canActivate: [DirectorAuthGuard] },
-  { path: '**', redirectTo: '/login' }
+  { path: 'showRes/:id', component: ShowResComponent,canActivate: [AfterLoginService, DirectorAuthGuard] },
+  { path: '**', redirectTo: '/login' },
+
+
 ];
 
 @NgModule({

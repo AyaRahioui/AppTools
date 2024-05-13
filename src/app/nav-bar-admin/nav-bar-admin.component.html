@@ -1,5 +1,5 @@
-<p>nav-bar-admin works!</p>
-<nav class="navbar">
+
+  <nav class="navbar" > <!-- *ngIf="loggedIn"-->
     <ul class="navbar__menu">
       <li class="navbar__item">
        
@@ -13,8 +13,13 @@
         <a routerLink="/" class="navbar__link"><img src='./assets/img/suivi.gif' ><span>Suivi et évaluation</span></a>        
       </li>
       <li class="navbar__item">
-        <a href="#" class="navbar__link"><i data-feather="folder"></i><span>Plan d'action hébdo</span></a>        
+        <a href="#" class="navbar__link"><img src='./assets/img/suivi.gif' ><span>Gesion de véhicule</span></a>        
       </li>
-    
+      <li class="navbar__item">
+        <a href="#" class="navbar__link" (click)="logout($event)"> <img src='./assets/img/logout.gif' ><span>logout</span></a>        
+      </li>
     </ul>
   </nav>
+  <!--
+    <a href="https://lordicon.com/">Icons by Lordicon.com</a>
+  -->

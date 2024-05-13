@@ -1,4 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+ 
+.input-icon {
+    position: absolute;
+    top: 0;
+    left: 235px;
+    width: 3.4em;
+    height: 3em;
+    line-height: 4em;
+    text-align: center;
+    pointer-events: none;
+  }
+  
+  .input-icon:after {
+    position: absolute;
+    top: 0.6em;
+    bottom: 0.6em;
+    left: 3.4em;
+    display: block;
+    border-right: 1px solid #e5e5e5;
+    content: "";
+    -webkit-transition: 0.35s ease-in-out;
+    -moz-transition: 0.35s ease-in-out;
+    -o-transition: 0.35s ease-in-out;
+    transition: 0.35s ease-in-out;
+    transition: all 0.35s ease-in-out;
+  }
+  h1{
+    margin-bottom:25px;
+    font-size:1.8em;
+    color: #061255;
+  }
+  button{
+    margin-top:10px;
+  }
