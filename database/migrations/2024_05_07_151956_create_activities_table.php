@@ -13,7 +13,7 @@ class CreateActivitiesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->string('dueDate');
+            $table->json('dueDate');
             $table->string('label');
             $table->unsignedBigInteger('result_id');
             $table->foreign('result_id')->references('id')->on('results')->onDelete('cascade');

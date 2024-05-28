@@ -60,9 +60,9 @@ class PlanController extends Controller
 
         $category = $request->input('category');
 
-        if ($category === 'terrainPlan') {
+        if ($category === 'terrain') {
             $plans = TerrainPlan::all();
-        } elseif ($category === 'officePlan') {
+        } elseif ($category === 'office') {
             $plans = OfficePlan::all();
         } else {
             $plans = Plan::all();
@@ -91,10 +91,10 @@ class PlanController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'category' => 'required|in:terrainPlan,officePlan',
-            'result' => $request->input('category') === 'terrainPlan' ? 'required' : '',
-            'label' => $request->input('category') === 'terrainPlan' ? 'required' : '',
-            'zone_intervention' => $request->input('category') === 'terrainPlan' ? 'required' : '',
+            'category' => 'required|in:terrain,office',
+            'result' => $request->input('category') === 'terrain' ? 'required' : '',
+            'label' => $request->input('category') === 'terrain' ? 'required' : '',
+            'zone_intervention' => $request->input('category') === 'terrain' ? 'required' : '',
             'actor' => 'required',
             'date' => 'required',
             'descriptif' => 'required',
@@ -102,7 +102,7 @@ class PlanController extends Controller
     
         $plan = null;
     
-        if ($validatedData['category'] === 'terrainPlan') {
+        if ($validatedData['category'] === 'terrain') {
             $plan = TerrainPlan::create([
                 'result' => $validatedData['result'],
                 'label' => $validatedData['label'],
@@ -111,7 +111,7 @@ class PlanController extends Controller
                 'date' => $validatedData['date'],
                 'descriptif' => $validatedData['descriptif'],
             ]);
-        } elseif ($validatedData['category'] === 'officePlan') {
+        } elseif ($validatedData['category'] === 'office') {
             $plan = OfficePlan::create([
                 'actor' => $validatedData['actor'],
                 'date' => $validatedData['date'],
@@ -130,7 +130,7 @@ class PlanController extends Controller
     
     public function show(string $id)
     {
-        $plan = $this->plan->where('category', 'terrainPlan')->orWhere('category', 'officePlan')->find($id);
+        $plan = $this->plan->where('category', 'terrain')->orWhere('category', 'office')->find($id);
 
         if (!$plan) {
             return response()->json(['message' => 'Plan not found'], 404);
@@ -138,40 +138,93 @@ class PlanController extends Controller
 
         return response()->json($plan);
     }
+
+    // public function update(Request $request, string $id)
+    // {
+    //     $plan = $this->plan->where('category', 'terrain')->orWhere('category', 'office')->find($id);
+
+    //     if (!$plan) {
+    //         return response()->json(['message' => 'Plan not found'], 404);
+    //     }
+
+    //     $validatedData = $request->validate([
+    //         'category' => 'sometimes|required|in:terrain,office',
+    //         'result_id' => 'sometimes|required|exists:results,id',
+    //         'label' => 'sometimes|required',
+    //         'zone_intervention' => 'sometimes|required',
+    //         'actor' => 'sometimes|required',
+    //         'date' => 'sometimes|required',
+    //         'descriptif' => 'sometimes|required',
+    //     ]);
+
+    //     $plan->update($validatedData);
+
+    //     return response()->json($plan);
+    // }
 
     public function update(Request $request, string $id)
     {
-        $plan = $this->plan->where('category', 'terrainPlan')->orWhere('category', 'officePlan')->find($id);
-
+        // Determine the type of plan to update based on the existing record
+        $category = $request->input('category');
+        $plan = null;
+    
+        if ($category === 'terrain') {
+            $plan = TerrainPlan::find($id);
+        } elseif ($category === 'office') {
+            $plan = OfficePlan::find($id);
+        } else {
+            return response()->json(['message' => 'Invalid category'], 400);
+        }
+    
+        // Check if the plan exists
         if (!$plan) {
             return response()->json(['message' => 'Plan not found'], 404);
         }
-
+    
+        // Validate the incoming request data
         $validatedData = $request->validate([
-            'category' => 'sometimes|required|in:terrainPlan,officePlan',
-            'result_id' => 'sometimes|required|exists:results,id',
-            'label' => 'sometimes|required',
-            'zone_intervention' => 'sometimes|required',
+            'category' => 'sometimes|required|in:terrain,office',
+            'result' => 'sometimes|required_if:category,terrain',
+            'label' => 'sometimes|required_if:category,terrain',
+            'zone_intervention' => 'sometimes|required_if:category,terrain',
             'actor' => 'sometimes|required',
-            'date' => 'sometimes|required',
+            'date' => 'sometimes|required|date',
             'descriptif' => 'sometimes|required',
         ]);
-
+    
+        // Update the plan with validated data
         $plan->update($validatedData);
-
-        return response()->json($plan);
+    
+        return response()->json($plan, 200);
     }
-
-    public function destroy(string $id)
+       
+    public function destroy(Request $request, string $id)
     {
-        $plan = $this->plan->where('category', 'terrainPlan')->orWhere('category', 'officePlan')->find($id);
-
+        // Get the category from the query parameters
+        $category = $request->query('category');
+        $plan = null;
+    
+        // Find the plan based on the category
+        if ($category === 'terrain') {
+            $plan = TerrainPlan::find($id);
+        } elseif ($category === 'office') {
+            $plan = OfficePlan::find($id);
+        } else {
+            return response()->json(['message' => 'Invalid category'], 400);
+        }
+    
+        // Check if the plan exists
         if (!$plan) {
             return response()->json(['message' => 'Plan not found'], 404);
         }
-
-        $plan->delete();
-
-        return response()->json(['message' => 'Plan deleted']);
+    
+        // Attempt to delete the plan
+        if ($plan->delete()) {
+            return response()->json(['message' => 'Plan deleted successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Failed to delete plan'], 500);
+        }
     }
+    
+    
 }

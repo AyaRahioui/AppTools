@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\PlanController;
+use App\Http\Controllers\EvaluateController;
 use Illuminate\Support\Facades\Validator; 
 use app\module\User;
 
@@ -47,7 +48,10 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::apiResource('/result', ResultController::class);
     Route::apiResource('/activity', ActivityController::class);
     Route::apiResource('/plan', PlanController::class);
+    Route::apiResource('/evaluate', EvaluateController::class);
     // Route::get('results','ResultController@getResult');
     // Route::post('addresult', 'ResultController@addResult');
+    Route::get('due-reminders', [ActivityController::class, 'getDueReminders']);
+
 
 });

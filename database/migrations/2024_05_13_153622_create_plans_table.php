@@ -18,12 +18,6 @@ class CreatePlansTable extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->string('category');
-            $table->string('result')->nullable();
-            $table->string('label')->nullable();
-            $table->string('zone_intervention')->nullable();
-            $table->string('actor');
-            $table->date('date');
-            $table->text('descriptif');
             $table->timestamps();
         });
     }

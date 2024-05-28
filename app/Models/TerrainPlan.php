@@ -16,3 +16,4 @@ class TerrainPlan extends Plan {
     ];
     use HasFactory;
 }
+

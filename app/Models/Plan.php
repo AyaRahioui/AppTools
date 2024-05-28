@@ -9,12 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 abstract class Plan extends Model {
     protected $fillable = [
         'category',
-        'result',
-        'label',
-        'actor',
-        'zone_intervention',
-        'date',
-        'descriptif',
     ];
     use HasFactory;
 

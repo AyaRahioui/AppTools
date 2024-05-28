@@ -11,10 +11,16 @@ class Activity extends Model
  protected $primaryKey = 'id';
 
     protected $fillable = ['name', 'description', 'dueDate', 'label' ,'result_id'];
-
+    protected $casts = [
+        'dueDate' => 'array',
+    ];
    use HasFactory;
    public function result()
    {
        return $this->belongsTo(Result::class);
+   }
+   public function reminders()
+   {
+       return $this->hasMany(Reminder::class);
    }
 }
