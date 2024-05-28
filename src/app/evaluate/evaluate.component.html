@@ -1,0 +1,97 @@
+<section class="inner-content">
+  <div class="header">
+    <div class="inner-header flex">
+      <h1>Evaluation</h1>
+    </div>
+    <div class="titles">
+      <button mat-raised-button color="primary" (click)="toggleForm()">Ajouter</button>
+    </div>
+  </div>
+  <div class="tab">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Code</th>
+          <th>Description</th>
+          <th>Label</th>
+          <th>PDF</th>
+          <th>Photos</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let evaluation of EvaluateArray">
+          <td>{{ evaluation.id }}</td>
+          <td>{{ evaluation.codeRes }}</td>
+          <td>{{ evaluation.descriptif }}</td>
+          <td>{{ evaluation.label }}</td>
+          <td>
+            <ng-container *ngIf="evaluation.pdf">
+              <a [href]="evaluation.pdf" target="_blank">View PDF</a>
+            </ng-container>
+          </td>
+          <td>
+            <ng-container *ngIf="evaluation.imgs && evaluation.imgs.length">
+              <a href="javascript:void(0)" (click)="openPhotoModal(evaluation.imgs)">View Photos ({{ evaluation.imgs.length }})</a>
+            </ng-container>
+          </td>
+          <td>
+            <button type="button" class="status shipped" aria-label="Edit" (click)="setUpdate(evaluation)">
+              <i class="fas fa-pen-square"></i>
+            </button>
+            <button type="button" class="status cancelled" aria-label="Delete" (click)="setDelete(evaluation)">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Modal for viewing photos -->
+<div class="modal" *ngIf="photoModalVisible">
+  <div class="modal-content">
+    <span class="close" (click)="closePhotoModal()">&times;</span>
+    <div class="photos">
+      <img *ngFor="let photo of currentPhotos" [src]="photo" alt="Photo">
+    </div>
+  </div>
+</div>
+
+<div class="backdrop" [ngClass]="{'popup': showForm}" (click)="toggleForm()" *ngIf="showForm">
+  <div class="containerForm" [ngClass]="{'popup': showForm}" (click)="$event.stopPropagation()">
+    <form (ngSubmit)="save()" class="submitted">
+      <mat-form-field>
+        <mat-label>Code</mat-label>
+        <input matInput [(ngModel)]="codeRes" name="codeRes" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <input matInput [(ngModel)]="descriptif" name="descriptif" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Label</mat-label>
+        <input matInput [(ngModel)]="label" name="label" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Plan</mat-label>
+        <input matInput [(ngModel)]="plan" name="plan">
+      </mat-form-field>
+
+      <input type="file" (change)="onFileSelected($event)" multiple>
+
+      <div *ngIf="pdfUrl">
+        <a [href]="pdfUrl" target="_blank">View PDF</a>
+      </div>
+
+      <mat-dialog-actions>
+        <div class="gap">
+          <button mat-raised-button type="submit" color="primary">{{ isUpdateMode ? 'Modifier' : 'Enregistrer' }}</button>
+          <button mat-raised-button type="button" (click)="toggleForm()">Annuler</button>
+        </div>
+      </mat-dialog-actions>
+    </form>
+  </div>
+</div>

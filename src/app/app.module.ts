@@ -26,12 +26,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ResultComponent } from './result/result.component';
 
-
+import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { MatDialogModule,MatDialogConfig  } from '@angular/material/dialog';
 
 
 import { ShowResComponent } from './show-res/show-res.component';
 import { ActionComponent } from './action/action.component';
+
+import { ScheduleComponent } from './schedule/schedule.component';
+import { EvaluateComponent } from './evaluate/evaluate.component';
+import { RemindersComponent } from './reminders/reminders.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +49,11 @@ import { ActionComponent } from './action/action.component';
     ResultComponent,
     ActionComponent,
     ShowResComponent,
-    NavBarAdminComponent
+    NavBarAdminComponent,
+    ImageUploadComponent,
+    ScheduleComponent,
+    EvaluateComponent,
+    RemindersComponent
   ],
   imports: [
     BrowserModule,

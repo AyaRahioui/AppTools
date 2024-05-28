@@ -30,7 +30,7 @@ body {
   top: $spacer;
   left: 5px;
   background: #6382db;
-  border-radius: $borderRadius;
+  border-radius: 22px;
   padding: $spacer 0;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.03);
   height: calc(100vh - #{$spacer * 4});

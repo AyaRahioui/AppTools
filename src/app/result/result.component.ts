@@ -1,145 +1,119 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
   selector: 'app-result',
   templateUrl: './result.component.html',
-  styleUrls: ['../plan/plan.component.css']
+  styleUrls: ['./result.component.css']
 })
+
 export class ResultComponent implements OnInit {
+  @Input() isAdminView: boolean = false;
+  resultForm: FormGroup;
+  submitted: boolean = false;
+  showForm: boolean = false;
+  isUpdateMode: boolean = false;
+  ResultArray: any[] = [];
+  isResultLoaded: boolean = false;
+  currentResultID: string = "";
+
+  constructor(
+    private http: HttpClient, 
+    private toast: HotToastService,
+    private fb: FormBuilder
+  ) {
+    this.resultForm = this.fb.group({
+      result: ['', [Validators.required, Validators.pattern(/^r\d+$/)]]
+    });
+  }
+
   ngOnInit(): void {
-  
+    this.getAllResult();
   }
-  
-    submitted: boolean = false;
-    showForm: boolean = false;
-    grps: any[] = []; // Assuming grps is the array where you store your group data
-    currentGroupId = "";
-    isUpdateMode = false;
-  
-     ResultArray : any[] = [];
-    isResultLoaded = false;
-   
-    
-    name: string ="";
-  
-   
-    currentResultID = "";
-  constructor(private http: HttpClient , private toast: HotToastService)
-    {
+
+  getAllResult(): void {
+    this.http.get("http://127.0.0.1:8000/api/result").subscribe((resultData: any) => {
+      this.isResultLoaded = true;
+      this.ResultArray = resultData;
+    });
+  }
+
+  register(): void {
+    let bodyData = {
+      "name": this.resultForm?.get('result')?.value
+    };
+
+    this.http.post("http://127.0.0.1:8000/api/result", bodyData, { responseType: 'text' }).subscribe(() => {
+      this.toast.success('Résultat créé avec succès!');
       this.getAllResult();
-   
-    }
-    getAllResult()
-    {
-      
-      this.http.get("http://127.0.0.1:8000/api/result")
-    
-      .subscribe((resultData: any)=>
-      {
-          this.isResultLoaded = true;
-          console.log(resultData);
-          this.ResultArray = resultData;
-      });
-    }
-   
-    register()
-    {
-    
-      let bodyData = {
-        "name" : this.name,
-       
-      };
-   
-      this.http.post("http://127.0.0.1:8000/api/result",bodyData,{responseType: 'text'}).subscribe((resultData: any)=>
-      {
-          console.log(resultData);
-          this.toast.success('Résultat créé avec succés!');
-          this.getAllResult();
-          this.name = '';
-  
-      });
+      this.resetForm();
       this.toggleForm();
-  
-    }
-    setUpdate(data: any)
-    {
-      this.showForm = !this.showForm;
-     this.name = data.name;
-     this.currentResultID = data.id;
-     this.isUpdateMode = true;
-  
-    }
-   
-    UpdateRecords()
-    {
-      let bodyData = {
-        "id" : this.currentResultID,
-        "name" : this.name,
-    
-      };
-      
-      this.http.put("http://127.0.0.1:8000/api/result"+ "/"+ this.currentResultID,bodyData).subscribe((resultData: any)=>
-      {
-          console.log(resultData);
-          this.toast.success('Résultat modifié avec succés!');
-          
-          this.getAllResult();
-          this.toggleForm();
-        
-      });
-    }
-   
-    save()
-    {
-      if (this.isUpdateMode) {
-        this.UpdateRecords();
-      } else {
-        this.register();
-      }
-   
-    }
-   
-    setDelete(data: any)
-    {
-      
-      
-      this.http.delete("http://127.0.0.1:8000/api/result"+ "/"+ data.id,{responseType: 'text'}).subscribe((resultData: any)=>
-      {
-          console.log(resultData);
-          this.toast.success('Résultat supprimé avec succés!');
-          this.getAllResult();
-          this.name = '';
-    
-      });
-   
-    }
-  
-    reset() {
-      this.name = "";
-    }
-  
-    toggleForm(): void {
-      this.showForm = !this.showForm;
-      this.reset();
-      this.submitted = false;
-      this.isUpdateMode = false;
-    }
-  
-    submitForm(): void {
-      // Logique pour soumettre le formulaire
-      console.log('Formulaire soumis!');
-      // Vous pouvez ajouter ici une logique supplémentaire pour traiter les données du formulaire
-      this.cancelForm();
-    }
-  
-    cancelForm(): void {
-      this.showForm = false;
-      this.reset();
-    }
-  
+    });
   }
-  
-  
-  
+
+  setUpdate(data: any): void {
+    this.showForm = true;
+    this.resultForm?.patchValue({ result: data.name });
+    this.currentResultID = data.id;
+    this.isUpdateMode = true;
+  }
+
+  UpdateRecords(): void {
+    let bodyData = {
+      "id": this.currentResultID,
+      "name": this.resultForm?.get('result')?.value
+    };
+
+    this.http.put(`http://127.0.0.1:8000/api/result/${this.currentResultID}`, bodyData).subscribe(() => {
+      this.toast.success('Résultat modifié avec succès!');
+      this.getAllResult();
+      this.resetForm();
+      this.toggleForm();
+    });
+  }
+
+  save(): void {
+    this.submitted = true;
+    if (this.resultForm?.invalid) {
+      return;
+    }
+
+    if (this.isUpdateMode) {
+      this.UpdateRecords();
+    } else {
+      this.register();
+    }
+  }
+
+  setDelete(data: any): void {
+    this.http.delete(`http://127.0.0.1:8000/api/result/${data.id}`, { responseType: 'text' }).subscribe(() => {
+      this.toast.success('Résultat supprimé avec succès!');
+      this.getAllResult();
+    });
+  }
+
+  resetForm(): void {
+    this.resultForm?.reset();
+    this.submitted = false;
+    this.isUpdateMode = false;
+  }
+
+  toggleForm(): void {
+    this.showForm = !this.showForm;
+    if (!this.showForm) {
+      this.resetForm();
+    }
+  }
+
+  // Implement the onSubmit method
+  onSubmit(): void {
+    this.save();
+  }
+
+  // Implement the onReset method
+  onReset(): void {
+    this.resetForm();
+  }
+}

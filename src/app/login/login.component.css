@@ -8,7 +8,7 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 
-    background-color: #1a1a2e;
+    background-color: #016d9d;
     display: flex;
 
 }
@@ -59,6 +59,7 @@ body {
 button{
     width: 54%;
     margin-bottom: 20px;
+    background-color: #f67a20 !important;
 }
 
 a{
@@ -69,3 +70,6 @@ a{
   left: 24px;
 }
 
+h1{
+  color:#f67a20;
+}

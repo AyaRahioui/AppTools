@@ -1,0 +1,43 @@
+<div class="schedule-container">
+  <div class="header">
+    <h2>{{ currentMonth.format('MMMM YYYY') }}</h2>
+    <!-- <div>
+      <button (click)="changeMonth(-1)">&lt;</button>
+      <button (click)="changeMonth(1)">&gt;</button> -->
+    <div class="btn-group nav-btns">
+      <button (click)="changeMonth(-1)" class="btn btn-danger ">
+        <svg t="1585663627827" class="arrow-left-icon" fill="currentColor" viewBox="0 0 1024 1024" version="1.1"
+          xmlns="http://www.w3.org/2000/svg" p-id="1157" data-darkreader-inline-fill="" width="20" height="20">
+          <path d="M629.291 840.832l60.331-60.331-268.501-268.501 268.501-268.501-60.331-60.331-328.832 328.832z"
+            p-id="1158"></path>
+        </svg></button>
+      <button (click)="changeMonth(1)" class="btn btn-danger btn-round">
+        <svg t="1585663663731" class="arrow-right-icon" fill="currentColor" viewBox="0 0 1024 1024" version="1.1"
+          xmlns="http://www.w3.org/2000/svg" p-id="1391" data-darkreader-inline-fill="" width="20" height="20">
+          <path d="M689.621 512l-328.832-328.832-60.331 60.331 268.501 268.501-268.501 268.501 60.331 60.331z"
+            p-id="1392"></path>
+        </svg>
+      </button>
+    </div>
+
+
+  </div>
+
+  <div class="week-days">
+    <div class="week-day">Lun</div>
+    <div class="week-day">Mar</div>
+    <div class="week-day">Mer</div>
+    <div class="week-day">Jeu</div>
+    <div class="week-day">Ven</div>
+    <div class="week-day">Sam</div>
+    <div class="week-day">Dim</div>
+  </div>
+
+  <div class="calendar-grid">
+    <div *ngFor="let day of daysInMonth" class="calendar-day" [ngClass]="{'current-day': isToday(day)}">
+      <a [routerLink]="['/plan', formatDateForLink(day)]">
+        <span class="date">{{ day.format('D') }}</span>
+      </a>
+    </div>
+  </div>
+</div>

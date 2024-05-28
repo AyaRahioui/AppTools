@@ -1,0 +1,87 @@
+/* 64ac15 */
+$baseColor:#0288d1;
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+#first{
+  margin-bottom: 60px;
+}
+/* body {
+  padding: 1em;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  color: #b9b9b9;
+  background-color: #e3e3e3;
+} */
+h4 {
+  color: #f0a500;
+}
+
+form > div:nth-child(1),
+form > div:nth-child(2) {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 35px;
+}
+#actions{
+    display: flex;
+    gap:5px;
+}
+/* Add custom styles for the table */
+.table-container {
+  background-color: #e3f2fd;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+
+.table-row {
+  background-color: white;
+  transition: background-color 0.3s;
+}
+
+.table-row:hover {
+  background-color: #f1f1f1;
+}
+
+.table-cell {
+  padding: 10px;
+  text-align: left;
+  vertical-align: middle;
+}
+.head {
+  background-color: $baseColor;
+  color: white;
+  font-size: 1.5em;
+  padding: 1rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+tr {     
+  &:nth-child(2n+1) { background-color: white; }
+  &:nth-child(2n) { background-color: lighten($baseColor, 55%) }
+}
+.tr{
+  color: $baseColor;
+  text-align: left;
+  font-weight: bold;
+  border-bottom: 0.001em solid darken($baseColor, 5%);
+}
+
+.inner-content{
+  
+  position: relative; 
+ 
+  border-radius: 3px;
+  width: 100%;
+  color: rgba(0, 0, 0, .8);
+  background-color: #fff;
+  padding: 100px;
+  box-sizing: border-box;
+   margin: 24px 0;
+}

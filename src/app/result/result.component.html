@@ -1,111 +1,71 @@
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
-<app-nav-bar-admin></app-nav-bar-admin>
-<section class="inner-content" >
-
-  <div class="header" >
-    <div class="inner-header flex"> 
-    <h1> Résultat</h1>
-
-    </div> 
-    
-    <div class="titles">
-
-      <button  mat-raised-button color="primary"  (click)="toggleForm()">Ajouter </button>
-  </div>
-</div>
-
-
-    <div class="tab">
-      <!-- <img src="./assets/img/res.webp" alt="attribution illustration" class="h-48 w-48 sm:w-64 sm:h-64 lg:mr-6 lg:ml-8"> -->
-
-
- 
-      
-
-      
-
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase" id="headTab">
-            <tr>
-          <th scope="col" class="px-6 py-3">N°</th>
-          <th scope="col" class="px-6 py-3">Résultat</th>
-          <th scope="col" class="px-6 py-3" >
-            Actions
-
-          </th>
-        </tr>
-      </thead>
-      <h1 *ngIf="!isResultLoaded">Loading.................</h1>
-      <tbody>
-        <tr *ngFor="let resultItem of ResultArray" >
-         
-          <td class="px-6 py-4">{{resultItem.id}}</td>
-          <td class="px-6 py-4">{{resultItem.name}}</td>
-          <td class="px-6 py-4 text-left">
-            <button  class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="setUpdate(resultItem)">
-              <i class="fas fa-pen-square"></i>
-            </button>
-            <!-- (click)="setUpdate(FuelItem)"  -->
-            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="setDelete(resultItem)">
-              <i class="fas fa-trash-alt"></i>
-            </button>
-            <a [routerLink]="['/showRes', resultItem.id]">    <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-              <i class="fas fa-eye"></i> 
-            </button> </a>
-</td>
-        </tr>
-        
-    </tbody>
-  </table>
-</div>
-
+<!-- Affichage conditionnel basé sur la valeur de isAdminView -->
+<ng-container *ngIf="!isAdminView">
+  <app-nav-bar-admin></app-nav-bar-admin>
+  <section class="inner-content">
+    <div class="header">
+      <div class="inner-header flex">
+        <h4>Résultat</h4>
+      </div>
+      <div class="titles">
+        <button mat-raised-button color="primary" (click)="toggleForm()">Ajouter</button>
+      </div>
     </div>
+  </section>
+</ng-container>
 
-   
-      
-    <!-- <tr *ngFor="let resultItem of ResultArray">
-      <td class="px-6 py-4">{{resultItem.id}}</td>
-      <td class="px-6 py-4">{{resultItem.name}}</td>
-      <td class="px-6 py-4 text-right">
-        <button type="button" class="status shipped" aria-label="Edit">
-          <i class="fas fa-pen-square"></i>
-        </button>
-
-        <button type="button" class="status cancelled"  aria-label="Delete">
-          <i class="fas fa-trash-alt"></i>
-        </button>
-</td>
-    </tr>      -->
-    
-
-  
+<section class="inner-content">
+  <div class="tab">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase" id="headTab">
+          <tr>
+            <th scope="col" class="px-6 py-3">N°</th>
+            <th scope="col" class="px-6 py-3">Résultat</th>
+            <th scope="col" class="px-6 py-3">Actions</th>
+          </tr>
+        </thead>
+        <h1 *ngIf="!isResultLoaded">Loading.................</h1>
+        <tbody>
+          <tr *ngFor="let resultItem of ResultArray">
+            <td class="px-6 py-4">{{resultItem.id}}</td>
+            <td class="px-6 py-4">{{resultItem.name}}</td>
+            <td class="px-6 py-4 text-left" id="SR">
+              <button class="edit-btn" (click)="setUpdate(resultItem)">
+                <i class="fas fa-pen-square"></i>
+              </button>
+              <button class="delete-btn" (click)="setDelete(resultItem)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+              <a [routerLink]="['/showRes', resultItem.id]">
+                <button class="edit-btn">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </section>
-
-
 
 <div class="backdrop" [ngClass]="{'popup': showForm}" (click)="toggleForm()" *ngIf="showForm">
   <div class="containerForm" [ngClass]="{'popup': showForm}">
-    <form (ngSubmit)="save(); submitted = true;" class="item submitted" *ngIf="showForm" 
-    (click)="$event.stopPropagation()"    >
-    <mat-form-field>
-      <mat-label for="model">Résultat</mat-label>
-      <input matInput type="text" [(ngModel)]="name" id="model"  name="model">
-    </mat-form-field>
-    <!-- <mat-error *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)">
-      Veuillez entrer une adresse e-mail valide.
-    </mat-error> -->
-
-
-  <mat-dialog-actions>
-    <div class="SR item">
-      <button type="submit" class="submit" mat-raised-button color="primary" >Sauvegarder</button>
-      <button type="button" class="reset" mat-raised-button color="primary" (click)="reset()">Réinitialiser</button>
-      <button type="button" class="reset" mat-raised-button color="primary" (click)="showForm = false">Annuler</button>
-    </div>
-  </mat-dialog-actions>
-
-
- </form>
-
-
+    <form [formGroup]="resultForm" (ngSubmit)="onSubmit()" class="item" (click)="$event.stopPropagation()">
+      <mat-form-field>
+        <mat-label for="result">Résultat</mat-label>
+        <input matInput type="text" formControlName="result" id="result" name="result">
+        <mat-error *ngIf="resultForm.get('result')?.invalid && resultForm.get('result')?.touched">
+          Le résultat doit commencer par 'r' suivi de chiffres.
+        </mat-error>
+      </mat-form-field>
+      <mat-dialog-actions>
+        <div class="SR item">
+          <button type="submit" class="submit" mat-raised-button color="primary" [disabled]="resultForm.invalid">Sauvegarder</button>
+          <button type="button" class="reset" mat-raised-button color="primary" (click)="onReset()">Réinitialiser</button>
+          <button type="button" class="reset" mat-raised-button color="primary" (click)="toggleForm()">Annuler</button>
+        </div>
+      </mat-dialog-actions>
+    </form>
+  </div>
+</div>

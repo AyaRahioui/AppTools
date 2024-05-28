@@ -1,1 +1,27 @@
 <app-nav-bar-admin></app-nav-bar-admin>
+<section class="dashboard">
+    <section class="inner-content">
+        <div class="welcome-container shape-container" >
+            <h1>Hello, alphardex!</h1>
+            <p>Welcome back to Clean My PC</p>
+        </div>
+    
+        <div class="flex">
+            <div class="result">
+                <h4>Résultats</h4>
+                <app-result [isAdminView]="true"></app-result>
+            </div>
+            <div class="reminder">
+                <app-reminders></app-reminders>
+            </div>
+        </div>
+    </section>
+    <section class="side">
+        <div class="side-content">
+            <h1>My PC</h1>
+        </div>
+        <div class="cal">
+            <app-schedule></app-schedule>
+        </div>
+    </section>
+</section>

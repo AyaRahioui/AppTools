@@ -1,0 +1,68 @@
+$baseColor:#0288d1;
+
+
+
+
+
+.reminder-icon img {
+    width: 24px;
+    height: 24px;
+    margin-right: 15px;
+}
+
+.reminder-details {
+    flex-grow: 1;
+}
+
+.reminder-time {
+    display: block;
+    font-size: 14px;
+    color: #b0b0b0;
+}
+
+
+
+/***********************/
+
+
+
+.card {
+    background-color: #fff3c4;
+    border: 2px solid #ffd700;
+    border-radius: 15px;
+    width: 250px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    background-color: #ffc107;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.feature-name {
+    font-size: 18px;
+    color: #333;
+    margin-right: 15px;
+}
+body{
+    margin-top:20px;
+    margin-left:25px;
+}
