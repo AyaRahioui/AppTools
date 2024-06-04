@@ -19,8 +19,5 @@ class Activity extends Model
    {
        return $this->belongsTo(Result::class);
    }
-   public function reminders()
-   {
-       return $this->hasMany(Reminder::class);
-   }
+
 }

@@ -12,6 +12,7 @@ class Evaluate extends Model
         'codeRes',
         'label',
         'descriptif',
+        'actor',
         'plan',
         'pdf',
         'imgs'

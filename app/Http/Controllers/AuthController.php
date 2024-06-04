@@ -102,21 +102,25 @@ return $this->respondWithToken($updatedToken);
     //         'user' => $user 
     //     ], 201);
     // }
-    public function signup(Request $request){
+    public function signup(Request $request)
+    {
         // Validate the request data
         $validated = $request->validate([
             'firstname' => 'required|string|min:3',
             'lastname' => 'required|string|min:3',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
-            'role' => 'sometimes|nullable|in:admin,user' 
+            'role' => 'sometimes|nullable|in:admin,user',
         ]);
-    
+
+        // Hash the password
+        $validated['password'] = bcrypt($validated['password']);
+
         $user = User::create($validated);
-    
+
         return response()->json([
             'message' => 'User successfully registered',
-            'user' => $user 
+            'user' => $user
         ], 201);
     }
         
@@ -130,15 +134,14 @@ return $this->respondWithToken($updatedToken);
         ], 201);
     }
 
-
-    public function getResult(){
-        $result = Result::all();
+    public function index()
+    {
+        $users = User::all();
         return response()->json([
-            'message' => 'Result successfully registered',
-            'Result' => $result
-        ], 201);
+            'message' => 'Users retrieved successfully',
+            'users' => $users
+        ], 200);
     }
-
     /**
      * Get the authenticated User.
      *
@@ -187,16 +190,11 @@ return $this->respondWithToken($updatedToken);
 
         ]);
     }
-
-    // protected function respondWithToken($token,$role)
+    // public function index()
     // {
-    //     return response()->json([
-    //         'access_token' => $token,
-    //         'token_type' => 'bearer',
-    //         'expires_in' => auth()->factory()->getTTL() * 60,
-    //         'role'=>$role ,
-    //     ]);
+    //     return $this->user->all();
     // }
+
+
 }
-//laratrust
-//redux
+

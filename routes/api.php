@@ -21,9 +21,9 @@ use app\module\User;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 
 
@@ -36,7 +36,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::middleware('jwt')->group(function () {
       // Route pour obtenir les informations de l'utilisateur authentifié
   
-  });
+    });
   Route::get('getme', [AuthController::class, 'getAdmin']);
 
   //  Route::post('login', 'AuthController@login');
@@ -46,6 +46,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     //Route::post('me', 'AuthController@me');
     
     Route::apiResource('/result', ResultController::class);
+    Route::apiResource('/user', AuthController::class);
     Route::apiResource('/activity', ActivityController::class);
     Route::apiResource('/plan', PlanController::class);
     Route::apiResource('/evaluate', EvaluateController::class);

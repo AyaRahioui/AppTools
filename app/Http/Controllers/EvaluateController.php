@@ -16,25 +16,26 @@ class EvaluateController extends Controller
     {
         return $this->evaluate->all();
     }
-
     public function store(Request $request){
         // Validate the request data
         $validated = $request->validate([
-            'codeRes' => 'required|string|min:3',
-            'label' => 'required|string|min:3',
-            'descriptif' => 'required|string|min:3',
+            'codeRes' => 'required|string',
+            'label' => 'required|string',
+            'descriptif' => 'required|string',
+            'actor' => 'required|string',
             'plan' => 'nullable|string',
             'pdf' => 'nullable|string',
             'imgs' => 'nullable|json'
         ]);
-
+    
         $evaluate = Evaluate::create($validated);
-
+    
         return response()->json([
             'message' => 'Evaluate successfully registered',
             'evaluate' => $evaluate
         ], 201);
     }
+    
 
     public function show(string $id)
     {
@@ -51,9 +52,10 @@ class EvaluateController extends Controller
         $evaluate = $this->evaluate->find($id);
         if ($evaluate) {
             $validated = $request->validate([
-                'codeRes' => 'required|string|min:3',
-                'label' => 'required|string|min:3',
-                'descriptif' => 'required|string|min:3',
+                'codeRes' => 'required|string',
+                'label' => 'required|string',
+                'descriptif' => 'required|string',
+                'actor' => 'required|string',
                 'plan' => 'nullable|string',
                 'pdf' => 'nullable|string',
                 'imgs' => 'nullable|json'

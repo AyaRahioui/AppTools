@@ -5,18 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Reminder extends Model
+class Projet extends Model
 {
     use HasFactory;
 
+    // Définir les attributs de la table
     protected $fillable = [
-        'activity_id',
+        'nom',
         'date',
-        'result_id',
+        'activity',
+        'nb_init',
+        'nb_beneficiary',
+        'photo',
+        'pdf',
     ];
 
-    public function activity()
-    {
-        return $this->belongsTo(Activity::class);
-    }
 }

@@ -12,7 +12,7 @@ class CreateActivitiesTable extends Migration
 
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->json('dueDate');
             $table->string('label');
             $table->unsignedBigInteger('result_id');

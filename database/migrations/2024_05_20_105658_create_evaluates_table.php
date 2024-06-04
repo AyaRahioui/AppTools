@@ -1,7 +1,4 @@
 <?php
-
-
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,8 +17,9 @@ class CreateEvaluatesTable extends Migration
             $table->string('codeRes');
             $table->string('label');
             $table->text('descriptif');
+            $table->string('actor');
             $table->string('plan')->nullable();
-            $table->string('pdf')->nullable();
+            $table->text('pdf')->nullable(); // Change data type to text
             $table->json('imgs')->nullable();
             $table->timestamps();
         });
