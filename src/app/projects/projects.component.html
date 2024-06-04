@@ -1,0 +1,56 @@
+
+<app-image-upload></app-image-upload>
+  <section class="inner-content">
+  
+  
+    <div class="tab">
+      <div class=" inner-header" id="gris">
+        <nav>
+          <a (click)="toggleView('office')" [ngClass]="{'active': isOfficeVisible}">Forage des puis</a>
+          <a (click)="toggleView('terrain')" [ngClass]="{'active': isTerrainVisible}">Développement rural</a>
+          <a (click)="toggleView('terrain')" [ngClass]="{'active': isTerrainVisible}">Charité</a>
+          <a (click)="toggleView('terrain')" [ngClass]="{'active': isTerrainVisible}">Aménagement</a>
+          <a (click)="toggleView('terrain')" [ngClass]="{'active': isTerrainVisible}">Education</a>
+          <a (click)="toggleView('terrain')" [ngClass]="{'active': isTerrainVisible}">Santé </a>
+        </nav>
+   
+  
+      </div>
+  
+      <div class="header">
+  
+        <div class="p">
+          <h1>Projets</h1>
+        </div>
+        <div class="title">
+          <button mat-raised-button color="primary" (click)="toggleForm()">Ajouter</button>
+        </div>
+      </div>
+  
+      <div *ngIf="isOfficeVisible">
+        <div class="backdrop" [ngClass]="{'popup': showForm}" (click)="toggleForm()" *ngIf="showForm">
+          <div class="containerForm" [ngClass]="{'popup': showForm}">
+   
+          </div>
+        </div>
+  
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase" id="headTab">
+              <tr>
+                <th scope="col" class="px-6 py-3">Id</th>
+                <th scope="col" class="px-6 py-3"></th>
+                <th scope="col" class="px-6 py-3"></th>
+                <th scope="col" class="px-6 py-3"></th>
+
+              </tr>
+            </thead>
+            <tbody>
+  
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>

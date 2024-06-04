@@ -1,20 +1,23 @@
+<app-image-upload></app-image-upload>
 <section class="inner-content">
-  <div class="header">
+  <div class="heade">
     <div class="inner-header flex">
       <h1>Evaluation</h1>
     </div>
-    <div class="titles">
+    <div class="titleE">
       <button mat-raised-button color="primary" (click)="toggleForm()">Ajouter</button>
     </div>
   </div>
-  <div class="tab">
+  <div class="tab ">
     <table>
       <thead>
         <tr>
           <th>ID</th>
+          <th>Acteur</th>
           <th>Code</th>
           <th>Description</th>
-          <th>Label</th>
+          <th>Libellé</th>
+          <th>Plan</th>
           <th>PDF</th>
           <th>Photos</th>
           <th>Actions</th>
@@ -23,9 +26,11 @@
       <tbody>
         <tr *ngFor="let evaluation of EvaluateArray">
           <td>{{ evaluation.id }}</td>
+          <td>{{ evaluation.actor }}</td>
           <td>{{ evaluation.codeRes }}</td>
           <td>{{ evaluation.descriptif }}</td>
           <td>{{ evaluation.label }}</td>
+          <td>{{ evaluation.plan }}</td>
           <td>
             <ng-container *ngIf="evaluation.pdf">
               <a [href]="evaluation.pdf" target="_blank">View PDF</a>
@@ -47,51 +52,116 @@
         </tr>
       </tbody>
     </table>
+    <mat-paginator [length]="EvaluateArray.length"
+    [pageSize]="5"
+    [pageSizeOptions]="[5, 10, 20]"
+    (page)="onPageChange($event)">
+    </mat-paginator>
   </div>
 </section>
 
 <!-- Modal for viewing photos -->
-<div class="modal" *ngIf="photoModalVisible">
+<!-- <div class="backdrop modal" *ngIf="photoModalVisible">
   <div class="modal-content">
     <span class="close" (click)="closePhotoModal()">&times;</span>
     <div class="photos">
       <img *ngFor="let photo of currentPhotos" [src]="photo" alt="Photo">
     </div>
+
+  </div>
+</div> -->
+
+<!-- Modal for viewing photos -->
+<div class="backdrop modal" *ngIf="photoModalVisible">
+  <div class="modal-content">
+    <span class="close" (click)="closePhotoModal()">&times;</span>
+    <div class="photos">
+      <div class="photo-container" *ngFor="let photo of currentPhotos">
+        <img [src]="photo" alt="Photo">
+        <button (click)="downloadPhoto(photo)" class="download-button">
+          <i class="fas fa-download"></i>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
+
 
 <div class="backdrop" [ngClass]="{'popup': showForm}" (click)="toggleForm()" *ngIf="showForm">
   <div class="containerForm" [ngClass]="{'popup': showForm}" (click)="$event.stopPropagation()">
-    <form (ngSubmit)="save()" class="submitted">
-      <mat-form-field>
-        <mat-label>Code</mat-label>
-        <input matInput [(ngModel)]="codeRes" name="codeRes" required>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Description</mat-label>
-        <input matInput [(ngModel)]="descriptif" name="descriptif" required>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Label</mat-label>
-        <input matInput [(ngModel)]="label" name="label" required>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Plan</mat-label>
-        <input matInput [(ngModel)]="plan" name="plan">
-      </mat-form-field>
-
-      <input type="file" (change)="onFileSelected($event)" multiple>
-
-      <div *ngIf="pdfUrl">
-        <a [href]="pdfUrl" target="_blank">View PDF</a>
-      </div>
-
-      <mat-dialog-actions>
-        <div class="gap">
-          <button mat-raised-button type="submit" color="primary">{{ isUpdateMode ? 'Modifier' : 'Enregistrer' }}</button>
-          <button mat-raised-button type="button" (click)="toggleForm()">Annuler</button>
+    <div class="container">
+      <form (ngSubmit)="save(); submitted = true;" class="submitted" *ngIf="showForm" (click)="$event.stopPropagation()"
+        #activityForm="ngForm">
+        <div>
+          <mat-form-field>
+            <mat-label>Result</mat-label>
+            <mat-select [(ngModel)]="codeRes" name="codeRes" required>
+              <mat-option *ngFor="let result of ResultsArray"  [value]="result.name">{{ result.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Description</mat-label>
+            <input matInput [(ngModel)]="descriptif" name="descriptif" required>
+          </mat-form-field>
         </div>
-      </mat-dialog-actions>
-    </form>
+        <div>
+          <mat-form-field>
+            <mat-label>Label</mat-label>
+            <input matInput [(ngModel)]="label" name="label" required>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Plan</mat-label>
+            <input matInput [matDatepicker]="picker" id="plan" [(ngModel)]="plan" name="plan" (dateChange)="onDateChange($event)" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div >
+          <mat-form-field>
+            <mat-label>Acteur</mat-label>
+            <mat-select [(ngModel)]="actor" name="actor" required>
+              <mat-option *ngFor="let user of UsersArray" [value]="user.lastname + ' ' + user.firstname">
+                id: {{ user.id }}, {{ user.lastname }} {{ user.firstname }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <!-- <div class="file-upload">
+            <label for="file-input" class="custom-file-upload">Files (PDF, JPG, PNG)</label>
+            <input type="file" id="file-input" (change)="onFileSelected($event)" multiple />
+          </div>
+          <div *ngIf="pdfUrl">
+            <a [href]="pdfUrl" target="_blank">View PDF</a>
+          </div>  -->
+          <!-- <h5 *ngIf="!pdfUrl">Loading.................</h5> -->
+        </div>
+     
+        <!-- <div class="file-upload">
+          <label for="file-input" class="custom-file-upload">
+            Sélect. fichiers
+          </label>
+          <span id="file-upload-filename">Aucun fichier choisi</span>
+          <input id="file-input" type="file" (change)="onFileSelected($event)" multiple>
+        </div>
+        
+          <div *ngIf="pdfUrl">
+            <a [href]="pdfUrl" target="_blank">View PDF</a>
+          </div>  -->
+          <input type="file"  class="file-upload" (change)="onFileSelected($event)" multiple>
+
+          <div *ngIf="pdfUrl">
+            <a [href]="pdfUrl" target="_blank">View PDF</a>
+          </div>
+
+          <mat-dialog-actions>
+            <div id="actions">
+              <button type="submit" class="submit" mat-raised-button color="primary" [disabled]="!activityForm.valid">Sauvegarder</button>
+              <button type="button" class="reset" mat-raised-button color="primary" (click)="reset()">Réinitialiser</button>
+              <button type="button" class="reset" mat-raised-button color="primary" (click)="showForm = false">Annuler</button>
+            
+            </div>
+          </mat-dialog-actions>
+      </form>
+    </div>
   </div>
-</div>
+

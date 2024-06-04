@@ -1,4 +1,5 @@
 /* Add styles to the parent container */
+
 .parent-container {
     display: flex;
     justify-content: center;
@@ -9,7 +10,8 @@
 
 /* Existing styles for the welcome-container */
 .welcome-container {
-    background-color: #faa21a;
+    /* background-color: #faa21a; */
+    background: #6382db;
     padding: 20px 40px;
     border-radius: 36px;
     text-align: center;
@@ -18,6 +20,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom:40px;
    
 }
 .shape-container {
@@ -64,12 +67,12 @@
 .inner-content{
     color: rgba(0, 0, 0, .8);
     background-color: #fff;
-    flex:3;
+    flex:4;
     padding: 14px 35px 0px 100px;
 }
 
 .side{
-    padding: 14px 100px 0px 100px;
+    padding: 12px 61px 0px 84px;
     flex: 1;
     background-color: #f7f7fd;
     border-radius: 20px;
@@ -89,5 +92,227 @@
 }
 
 .result{
-    margin-top:20px;
+    margin-top: 20px;
+    margin-left: 80px;
+
+}
+
+#h4{
+    margin-bottom:0px;
+}
+  
+
+.box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 200px;
+    height: 200px;
+    box-sizing: border-box;
+}
+
+.box:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-top: 4px solid #84cdfa;
+    border-bottom: 4px solid #84cdfa;
+    box-sizing: border-box;
+    transform: scaleX(0);
+    transition: 0.5s;
+}
+
+.box:hover:before {
+    transform: scaleX(1);
+}
+
+.box:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-right: 4px solid #84cdfa;
+    border-left: 4px solid #84cdfa;
+    box-sizing: border-box;
+    transform: scaleY(0);
+    transition: 0.5s;
+}
+
+.box:hover:after {
+    transform: scaleY(1);
+    transition-delay: 0.5s;
+}
+
+.box h1 {
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    text-transform: uppercase;
+    z-index: 1;
+}
+
+.box span.border {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block;
+    transform: rotate(45deg);
+    pointer-events: none;
+    box-sizing: border-box;
+    background: rgba(0,0,0,.1);
+}
+
+.box h1 span {
+    font-size: 36px;
+    display: block;
+    color: #faa21a;
+
+}
+
+.box span.border:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-top: 4px solid #5ad1cd;
+    border-bottom: 4px solid #5ad1cd;
+    box-sizing: border-box;
+    transform: scaleX(0);
+    transition: 1.5s;
+}
+
+.box:hover span.border:before {
+    transform: scaleX(1);
+    transition-delay: 0.5s;
+}
+
+.box span.border:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-right: 4px solid #5ad1cd;
+    border-left: 4px solid #5ad1cd;
+    box-sizing: border-box;
+    transform: scaleY(0);
+    transition: 1.5s;
+}
+
+.box:hover span.border:after {
+    transform: scaleY(1);
+}
+
+.card {
+
+    border-radius: 40px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding: 20px;
+    width: 200px;
+    position: relative;
+    height: 264px;
+}
+
+
+.icon {
+    background-color: #f2f2f2;
+    border-radius: 50%;
+    padding: 21px;
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.water{
+    background: linear-gradient(to bottom, #0c5acf, #4da6ffba);
+}
+.seed{
+
+    background: linear-gradient(to bottom, #3a784e, #1db77c);
+}
+.heart{
+    background: linear-gradient(to bottom, #e00ee38f, #fbae38);
+}
+.city{
+    background: linear-gradient(to bottom, #bf4221, #ffb810c7);
+}
+.book{
+    background: linear-gradient(to bottom, #fc9c2b, #309cc1);
+}
+
+.icity i{
+    color: #cc835b;
+}
+.icon i {
+    font-size: 40px;
+}
+.iwater i{
+    color: #1a75ff;
+}
+
+.iheart i{
+    color: #e00ee3;
+}
+.iseed i{
+    color: #1db77c;
+}
+.title {
+    color: white;
+    font-size: 1.3rem;
+    margin: 60px 0 10px 0;
+}
+.ibook i{
+    color: #fc9c2b;
+}
+.heal{
+    background: linear-gradient(to bottom,  #74d5cc,#839503 );
+}
+.iheal i{
+    color: #839503;
+}
+.description {
+    color: white;
+    font-size: 0.9rem;
+    margin: 0 0 20px 0;
+    padding: 0 10px;
+}
+
+.button {
+    background-color: white;
+    color: #1a75ff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #e0e0e0;
+}
+
+.center{
+    margin-left: 60px;
+    margin-top: 60px;
 }

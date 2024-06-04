@@ -39,3 +39,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     display:flex;
     flex-wrap: wrap;
   }
+
+.up{
+  text-transform: uppercase;
+}
+.gap{
+  gap: 45px;
+}
+

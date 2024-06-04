@@ -15,4 +15,20 @@ export class AuthService {
     this.loggedIn.next(value);
   }
   constructor(private jwt:TokenService) { }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  getUserRole(): string | null {
+    const token = this.getToken();
+    if (token) {
+      const jwtData = token.split('.')[1];
+      const decodedJwtJsonData = window.atob(jwtData);
+      const decodedJwtData = JSON.parse(decodedJwtJsonData);
+      return decodedJwtData.role;
+    }
+    return null;
+  }
 }
+

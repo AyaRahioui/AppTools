@@ -17,20 +17,23 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { EvaluateComponent } from './evaluate/evaluate.component';
 import { RemindersComponent } from './reminders/reminders.component';
-
+import { ActionComponent } from './action/action.component';
+import { ProjectsComponent } from './projects/projects.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
   { path: 'login', component:LoginComponent },
   { path: 'sign-up', component:SignUpComponent},
-  { path: 'img', component:ImageUploadComponent },
-  { path: 'schedule', component:ScheduleComponent },
-  { path: 'evaluate', component:EvaluateComponent },
-  { path: 'reminder', component:RemindersComponent },
- { path: 'plan/:day', component:PlanComponent/*,canActivate:[AfterLoginService,DirectorAuthGuard]*/},
- { path: 'result', component:ResultComponent  /*,canActivate:[AfterLoginService,DirectorAuthGuard]*/},
-  { path: 'user', component: UserComponent /*, canActivate: [AfterLoginService, UserAuthGuard] */},
-  { path: 'admin', component: AdminComponent/*, canActivate: [DirectorAuthGuard] */},
-  { path: 'showRes/:id', component: ShowResComponent,/*canActivate: [AfterLoginService, DirectorAuthGuard]*/ },
+  { path: 'img', component:ImageUploadComponent ,canActivate: [AfterLoginService]},
+  { path: 'action', component:ActionComponent ,canActivate: [AfterLoginService] },
+  { path: 'projects', component:ProjectsComponent ,canActivate: [AfterLoginService]},
+  { path: 'schedule', component:ScheduleComponent ,canActivate: [AfterLoginService]},
+  { path: 'evaluate', component:EvaluateComponent ,canActivate: [AfterLoginService] },
+  { path: 'reminder', component:RemindersComponent ,canActivate: [AfterLoginService]},
+ { path: 'plan/:day', component:PlanComponent,canActivate:[AfterLoginService]},
+ { path: 'result', component:ResultComponent  ,canActivate:[AfterLoginService,DirectorAuthGuard]},
+  { path: 'user', component: UserComponent , canActivate: [AfterLoginService, UserAuthGuard] },
+  { path: 'admin', component: AdminComponent, canActivate: [DirectorAuthGuard] },
+  { path: 'showRes/:id', component: ShowResComponent,canActivate: [AfterLoginService, DirectorAuthGuard] },
   { path: '**', redirectTo: '/login' },
 
 ];

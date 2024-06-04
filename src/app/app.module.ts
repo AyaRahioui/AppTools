@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatSelectModule} from '@angular/material/select';
@@ -32,10 +33,15 @@ import { MatDialogModule,MatDialogConfig  } from '@angular/material/dialog';
 
 import { ShowResComponent } from './show-res/show-res.component';
 import { ActionComponent } from './action/action.component';
-
+import { ProjectsComponent } from './projects/projects.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { EvaluateComponent } from './evaluate/evaluate.component';
 import { RemindersComponent } from './reminders/reminders.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { AuthInterceptor } from './services/auth.interceptor'; 
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -44,7 +50,6 @@ import { RemindersComponent } from './reminders/reminders.component';
     SignUpComponent,
     UserComponent,
     AdminComponent,
-    NavBarComponent,
     PlanComponent,
     ResultComponent,
     ActionComponent,
@@ -53,7 +58,9 @@ import { RemindersComponent } from './reminders/reminders.component';
     ImageUploadComponent,
     ScheduleComponent,
     EvaluateComponent,
-    RemindersComponent
+    RemindersComponent,
+    ProjectsComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,
@@ -69,14 +76,16 @@ import { RemindersComponent } from './reminders/reminders.component';
     ReactiveFormsModule,
     HttpClientModule,
     MatButtonModule,
+    MatDatepickerModule,
    // InterceptorModule,
     NgbModule,
     MatDialogModule,
     OverlayModule,
-    FormsModule 
+    FormsModule ,
+    MatSlideToggleModule
 
   ],
-  providers: [MatDialogConfig],
+  providers: [MatDialogConfig,  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

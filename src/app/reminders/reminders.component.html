@@ -1,33 +1,73 @@
-<!-- <div *ngIf="reminders.length > 0">
-    <h2>Due Reminders</h2>
-    <ul>
-      <li *ngFor="let reminder of reminders">
-        {{ reminder.name }} - Due on: {{ reminder.dueDate }}
-      </li>
-    </ul>
+
+
+
+
+<!-- reminders.component.html -->
+<ng-container *ngIf="isAdminView; else userView">
+  <h1>Notifications</h1>
+  <div *ngIf="reminders.length > 0">
+    <div class="card">
+      <div class="card-body">
+        <div class="flex">
+          <div class="icon">
+            <img src='./assets/img/reminder.gif' alt="">
+          </div>
+          <div class="reminder-details flex">
+            <span class="feature-name up">{{ getResultName(reminders[0].result_id) }}-{{ reminders[0].name }}</span>
+            <span class="reminder-time">date: {{ reminders[0].dueDate }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div *ngIf="reminders.length > 1 && !showAllReminders" class="more-reminders">
+        <span class="none">Il y a d'autres notifications</span>
+        <span class="voir"><a (click)="viewDetails()">Voir les détails</a></span>
+      </div>
+      <div *ngIf="reminders.length == 1 && !showAllReminders" class="more-reminders">
+        <span class="none">Il y a seulement cette notification</span>
+        <span class="voir"><a (click)="viewDetails()">Voir les détails</a></span>
+      </div>
+      <div *ngIf="showAllReminders">
+        <div *ngFor="let reminder of reminders.slice(1)" class="card-body">
+          <div class="flex">
+            <div class="icon">
+              <img src='./assets/img/reminder.gif' alt="">
+            </div>
+            <div class="reminder-details flex">
+              <span class="feature-name up">{{ getResultName(reminder.result_id) }}-{{ reminder.name }}</span>
+              <span class="reminder-time">date: {{ reminder.dueDate }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    <div *ngIf="reminders.length === 0">
+      <p>Il n'y a pas de notifications</p>
+    </div>
+  </div>
+</ng-container>
+<ng-template #userView>
+  
+  <app-image-upload></app-image-upload>
+  <section class="inner-content">
+  <h1>Notifications</h1>
+  <div *ngIf="reminders.length > 0">
+    <div class="card marge">
+      <div *ngFor="let reminder of reminders" class="card-body">
+        <div class="flex">
+          <div class="icon">
+            <img src='./assets/img/reminder.gif' alt="">
+          </div>
+          <div class="reminder-details flex">
+            <span class="feature-name up">{{ getResultName(reminder.result_id) }}-{{ reminder.name }}</span>
+            <span class="reminder-time">date: {{ reminder.dueDate }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div *ngIf="reminders.length === 0">
-    <p>No reminders due at the moment.</p>
+    <p>Il n'y a pas de notifications</p>
   </div>
-   -->
-   <body>
-    <h4>Notifications</h4>
-    <div *ngIf="reminders.length > 0" class="card">
-         <div *ngFor="let reminder of reminders" class="card-body"  >
-             <div class="flex" >
-                 <div class="icon">
-                     <img src='./assets/img/reminder.gif' alt="">
-                 </div>
- 
-                 <div class="reminder-details flex">
-                     <span class="feature-name">{{ reminder.name }}</span>
-                     <span class="reminder-time">date: {{ reminder.dueDate }}</span>
-                 </div>
-             </div>
-         </div>
- </div>
- <div *ngIf="reminders.length === 0">
-     <p>Il n'y a pas de notifications </p>
- </div> 
-   </body>
- 
+  </section>
+</ng-template>

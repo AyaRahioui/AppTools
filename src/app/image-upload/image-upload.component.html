@@ -1,12 +1,6 @@
-<!-- src/app/image-upload/image-upload.component.html -->
-<input type="file" (change)="onFileSelected($event)">
-<button (click)="uploadFile()">Upload File</button>
-
-<div *ngFor="let file of fileUrls">
-  <ng-container *ngIf="file.type === 'application/pdf'; else imageTemplate">
-    <a [href]="file.url" target="_blank">View PDF</a>
-  </ng-container>
-  <ng-template #imageTemplate>
-    <img [src]="file.url" alt="Uploaded Image">
-  </ng-template>
+<div *ngIf="role === 'admin'; else userTemplate">
+  <app-nav-bar-admin></app-nav-bar-admin>
 </div>
+<ng-template #userTemplate>
+  <app-nav-bar></app-nav-bar>
+</ng-template>

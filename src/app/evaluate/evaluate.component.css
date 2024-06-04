@@ -1,51 +1,249 @@
-/* Modal styles */
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Roboto Mono', monospace;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Styles for buttons */
+td button {
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+td button.status.shipped {
+  background-color: #4CAF50; /* Green */
+}
+
+td button.status.cancelled {
+  background-color: #f4433645; /* Red */
+}
+
+/* Styles for PDF and Photos links */
+a {
+  color: #2196F3;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Styles for the modal */
 .modal {
-    display: flex;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 10px;
+}
+
+.close {
+  color: #b11414;
+  float: right;
+  font-size: 28px;
+  display: flex;
+  font-weight: 900;
+  position: relative;
+  left: 544px;
+  top: -22px;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.photos img {
+  width: 250px; /* Increased width for larger photos */
+  height: 250px; /* Increased height for larger photos */
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Styles for header and button container */
+.titleE {
+  margin-top: 22px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: row-reverse;
+  font-family: 'Roboto Mono', monospace;
+width:65%;
+}
+
+.heade {
+  position: relative;
+  text-align: center;
+  color: white;
+  border-radius: 10px;
+  display: flex;
+}
+
+/* Additional padding for table cells */
+th, td {
+  padding: 15px;
+}
+
+/* Adjusting button sizes */
+button.status.shipped, button.status.cancelled {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+/* Ensuring table header sticks to the top */
+thead th {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 2;
+}
+
+/* Responsive table */
+@media screen and (max-width: 768px) {
+  table, thead, tbody, th, td, tr {
+      display: block;
+  }
+
+  th, td {
+      padding: 10px;
+      text-align: right;
+  }
+
+  th::before {
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
   }
   
-  .modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 600px;
+  td {
+      border: none;
+      border-bottom: 1px solid #ddd;
   }
-  
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+
+  tr {
+      margin-bottom: 10px;
   }
+}
+.file-upload {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 9px;
   
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  
-  .photos {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  .photos img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-  }
-  
+}
+
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+}
+
+#file-input {
+  display: none;
+}
+
+#file-upload-filename {
+  font-size: 14px;
+  color: #666;
+}
+
+.file-upload input:focus + .custom-file-upload,
+.file-upload input:focus + .custom-file-upload:focus {
+  outline: 2px solid #0056b3;
+  outline-offset: 2px;
+}
+
+
+
+/* Styles for the photo modal */
+.backdrop.modal .modal-content .photos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.backdrop.modal .modal-content .photo-container {
+  position: relative;
+  margin: 10px;
+}
+
+
+.backdrop.modal .modal-content .photo-container .download-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.backdrop.modal .modal-content .photo-container .download-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.backdrop.modal .modal-content .photo-container .download-button i {
+  font-size: 16px;
+}

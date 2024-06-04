@@ -15,7 +15,7 @@
   border-radius: 8px;
   max-height: 88vh;
   overflow-y: auto;
-  width: 47%;
+  width: 34%;
 }
 #SR{
   display: flex;
@@ -84,7 +84,7 @@
 }
 
 .inner-header {
-  height: 10vh;
+  height: max-content;
   width: 30%;
   margin: 0;
   padding: 0;
@@ -122,11 +122,12 @@ tbody tr:hover {
 }
 
 .titles {
-  margin-top: 22px;
   margin-bottom: 30px;
   display: flex;
   flex-direction: row-reverse;
   font-family: 'Roboto Mono', monospace;
+  position:relative;
+  left: 225px;
 }
 
 .SR {
@@ -154,14 +155,14 @@ tbody tr:hover {
   justify-content: center;
 }
 .delete-btn:hover {
-  background-color: #e95a5ade;
+  background-color: #e95a5aa1;
 }
 .edit-btn:hover {
   background-color: #63b1ad;
 }
 
 /* Nouveau style pour le bouton d'édition */
-.edit-btn {
+.edit-btn , .eye-btn{
   background-color: #E0F2F1; /* Couleur de fond vert clair */
   color: #00796B; /* Couleur de l'icône verte */
   border: none;
@@ -170,6 +171,10 @@ tbody tr:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.eye-btn{
+  color: #6382db;
+  background-color: #75d0f78c;
 }
 
 
@@ -185,8 +190,12 @@ tbody tr:hover {
 }
 
 .inner-content {
-  margin: 4px 10px;
+  margin: 0px 10px;
   font-family: Arial, sans-serif;
+  /* position: relative;
+  top: -14%; */
+  
+
 }
 
 .status {
@@ -332,9 +341,6 @@ p {
   color: #333333;
 }
 
-.titles button {
-  padding: 24px;
-}
 
 *, *:before, *:after {
   box-sizing: border-box;
@@ -405,4 +411,8 @@ select {
   form {
     max-width: 480px;
   }
+}
+.admin{
+    width: 50%;
+  transform: translate(53%, 99%);
 }

@@ -10,6 +10,7 @@ import { HotToastService } from '@ngneat/hot-toast';
   styleUrls: ['./plan.component.css','../show-res/show-res.component.scss','../result/result.component.css']
 })
 export class PlanComponent implements OnInit {
+  role: string | null = null;
   isOfficeVisible: boolean = true;
   isTerrainVisible: boolean = false;
   showForm: boolean = false;
@@ -25,11 +26,15 @@ export class PlanComponent implements OnInit {
   date:string='';
   currentPlanID = "";
   isUpdateMode = false;
-
+  UsersArray: any[] = [];
+  ResultsArray: any[] = [];
 
   constructor(private route: ActivatedRoute,private planService: PlanService,private http: HttpClient , private toast: HotToastService) {}
 
   ngOnInit(): void {
+    
+    this.getAllUsers();
+    this.getAllRes();
     this.route.paramMap.subscribe(params => {
       this.date = params.get('day') || ''; // Retrieve date from route params
       console.log(this.date + " getDate");
@@ -39,7 +44,19 @@ export class PlanComponent implements OnInit {
     if(this.currentCategory=='terrain')
       this.loadPlans('terrain');
   }
-
+  getAllRes() {
+    this.http.get("http://127.0.0.1:8000/api/result").subscribe(
+      (response: any) => {
+        // Assuming response is an array
+        this.ResultsArray = response;
+        console.log(this.ResultsArray);
+      },
+      (error) => {
+        this.toast.error('Error fetching results');
+        console.error(error);
+      }
+    );
+  }
   toggleView(category: string): void {
     if (category === 'office') {
       this.isOfficeVisible = true;
@@ -70,7 +87,7 @@ export class PlanComponent implements OnInit {
   register(): void {
     const plan = this.currentCategory === 'office' ? 
       { category:"office",actor: this.actor, descriptif: this.descriptif,date:this.date} : 
-      { category:"terrain",date:this.date,result: this.result, label: this.label, zone_intervention: this.zone_intervention, descriptif: this.descriptif };
+      { category:"terrain",date:this.date,result: this.result, label: this.label, zone_intervention: this.zone_intervention, descriptif: this.descriptif,actor: this.actor};
     
     this.planService.createPlan(plan).subscribe(() => {
       this.loadPlans(this.currentCategory);
@@ -97,6 +114,7 @@ export class PlanComponent implements OnInit {
       this.label = plan.label;
       this.zone_intervention = plan.zone_intervention;
       this.descriptif = plan.descriptif;
+      this.actor = plan.actor;
     }
     this.showForm = true;
     this.isUpdateMode = true;
@@ -113,7 +131,18 @@ export class PlanComponent implements OnInit {
 }
 
 
-
+getAllUsers() {
+  this.http.get("http://127.0.0.1:8000/api/user").subscribe(
+    (users: any) => {
+      this.UsersArray = users.users;
+      console.log(this.UsersArray);
+    },
+    (error) => {
+      this.toast.error('Error fetching users');
+      console.error(error);
+    }
+  );
+}
 
 
 

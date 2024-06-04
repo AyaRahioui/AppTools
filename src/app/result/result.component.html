@@ -1,11 +1,10 @@
 <!-- Affichage conditionnel basé sur la valeur de isAdminView -->
-<ng-container *ngIf="!isAdminView">
-  <app-nav-bar-admin></app-nav-bar-admin>
+<!-- <ng-container *ngIf="!isAdminView"> -->
+<ng-container> 
+  <!-- <app-nav-bar-admin></app-nav-bar-admin> -->
+  
   <section class="inner-content">
     <div class="header">
-      <div class="inner-header flex">
-        <h4>Résultat</h4>
-      </div>
       <div class="titles">
         <button mat-raised-button color="primary" (click)="toggleForm()">Ajouter</button>
       </div>
@@ -24,11 +23,11 @@
             <th scope="col" class="px-6 py-3">Actions</th>
           </tr>
         </thead>
-        <h1 *ngIf="!isResultLoaded">Loading.................</h1>
+        <h2 *ngIf="!isResultLoaded">Loading.................</h2>
         <tbody>
           <tr *ngFor="let resultItem of ResultArray">
             <td class="px-6 py-4">{{resultItem.id}}</td>
-            <td class="px-6 py-4">{{resultItem.name}}</td>
+            <td class="px-6 py-4 up" >{{resultItem.name}}</td>
             <td class="px-6 py-4 text-left" id="SR">
               <button class="edit-btn" (click)="setUpdate(resultItem)">
                 <i class="fas fa-pen-square"></i>
@@ -37,7 +36,7 @@
                 <i class="fas fa-trash-alt"></i>
               </button>
               <a [routerLink]="['/showRes', resultItem.id]">
-                <button class="edit-btn">
+                <button class="eye-btn">
                   <i class="fas fa-eye"></i>
                 </button>
               </a>
@@ -45,6 +44,7 @@
           </tr>
         </tbody>
       </table>
+
     </div>
   </div>
 </section>

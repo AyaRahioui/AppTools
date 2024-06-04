@@ -3,9 +3,43 @@ nav a {
   padding: 10px;
   text-decoration: none;
   color: black;
+  position: relative;
+  top: -14px;
 }
 
 nav a.active {
-  font-weight: bold;
-  color: blue;
+  color:#007bff;
 }
+.breadcrumb {
+  padding: 10px 15px;
+  background-color: #f4f6f9;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+}
+
+.breadcrumb a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb span {
+  color: #6c757d;
+}
+
+#gris{
+  padding-top: 23px;
+    background-color: #f4f6f9;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    border-radius: 12px;
+    width: 100%;
+    
+}
+.p{
+  margin-top: 28px;
+}
+

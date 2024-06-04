@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-nav-bar-admin',
   templateUrl: './nav-bar-admin.component.html',
-  styleUrls: ['../nav-bar/nav-bar.component.scss']
+  styleUrls: ['./nav-bar-admin.component.scss']
 })
 export class NavBarAdminComponent {
   public loggedIn:boolean = false;

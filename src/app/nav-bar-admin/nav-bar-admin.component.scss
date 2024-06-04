@@ -1,0 +1,145 @@
+@use 'sass:math';
+$borderRadius: 10px;
+$spacer: 0.7rem;
+$primary: #ffffff;
+$text: #111230;
+$linkHeight: math.div($spacer, 1) * 4.5;
+$timing: 400ms;
+
+$transition: $timing ease all;
+
+@mixin gooeyEffect($i) {
+  @keyframes gooeyEffect-#{$i} {
+    0% {
+      transform: scale(1, 1);
+    }
+    50% {
+      transform: scale(0.5, 1.5);
+    }
+    100% {
+      transform: scale(1, 1);
+    }
+  }
+}
+
+body {
+  background: #eaeef6;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.navbar {
+  position: fixed;
+  /* top: 0.7rem; */
+  /* left: 5px; */
+  background-color: rgba(250, 162, 26, 0.8705882353);
+  border-bottom-right-radius: 22px;
+  border-top-right-radius: 22px;
+  padding: 0.7rem 0;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.03);
+  height: calc(107vh - 2.8rem);
+  width: 66px;
+  z-index: 500;
+}
+
+.navbar__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3.87rem;
+  width: 50px; /* Ajustement de la largeur des liens */
+  color: $text;
+  transition: $transition;
+  top: -10px;
+}
+
+.navbar__menu, .navbar__item {
+  list-style-type: none;
+}
+
+.fas {
+  width: 47px;
+  position: relative;
+  left: -14px;
+  top: 5px;
+  font-size: 1.5rem;
+
+}
+a{
+  text-decoration: none;
+}
+e065:hover{
+  color: #fbae38;
+}
+
+.navbar__link span {
+  position: absolute;
+  left: 32%;
+  transform: translate(-#{math.div($spacer, 1) * 3});
+  margin-left: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  color: #fff;
+  background: #bac7eb;
+  padding: #{math.div($spacer, 1) * 0.75};
+  transition: $transition;
+  border-radius: #{math.div($borderRadius, 1) * 1.75};
+}
+
+.navbar__link {
+  color: #fff;
+}
+.navbar__link:hover{
+  color:#fbae38 ;
+}
+.navbar:not(:hover) .navbar__link:focus span,
+.navbar__link:hover span {
+  opacity: 1;
+  transform: translate(0);
+}
+
+.navbar__menu {
+  position: relative;
+  top: -107px;
+}
+
+.navbar__item:last-child:before {
+  content: '';
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+  top: 0;
+  left: 7px;
+  width: $linkHeight;
+  height: $linkHeight;
+  background: $primary;
+  color:#fbae38 ;
+ border-radius: 30.5px;
+  transition: $timing cubic-bezier(1, 0.2, 0.1, 1.2) all;
+}
+
+@for $i from 1 to 12 {
+  .navbar__item:first-child:nth-last-child(#{$i}),
+  .navbar__item:first-child:nth-last-child(#{$i}) ~ .navbar__item {
+    &:hover {
+      ~ .navbar__item:last-child:before {
+        opacity: 1;
+      }
+    }
+    &:last-child:hover:before {
+      opacity: 1;
+    }
+    @for $j from 1 to $i {
+      &:nth-child(#{$j}):hover ~ .navbar__item:last-child:before {
+        @include gooeyEffect($j);
+        top: math.div(100%, $i) * ($j - 1);
+        animation: gooeyEffect-#{$j} $timing 1;
+      }
+    }
+    &:last-child:hover:before {
+      @include gooeyEffect($i);
+      top: math.div(100%, $i) * ($i - 1);
+      animation: gooeyEffect-#{$i} $timing 1;
+    }
+  }
+}

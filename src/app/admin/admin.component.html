@@ -2,26 +2,119 @@
 <section class="dashboard">
     <section class="inner-content">
         <div class="welcome-container shape-container" >
-            <h1>Hello, alphardex!</h1>
-            <p>Welcome back to Clean My PC</p>
+            <div class="box">
+                <span class="border"></span>
+                <h1>Act for
+                    <br>
+                    <span>a positif</span>
+                    impact
+                    <br>
+                </h1>
+            </div>
         </div>
+        <!-- <h1>Projets</h1> -->
+    <section class="flex gap center">
+
+        <div class="card water">
+            <div class="icon iwater ">
+                <a routerLink="/action">
+                    <i class="fas fa-hand-holding-water"></i>
+                </a>
+               
+            </div>
+            <h2 class="title">Forage des puis</h2>
+            <p class="description">
+               tincidunt ut laoreet dolore magna.
+            </p>
+            <span>nombre ici</span>
+
+        </div>
+        <div class="card seed">
+            <div class="icon iseed ">
+                <a routerLink="/action">
+                    <i class="fas fa-seedling"></i>
+                </a>
+                
+            </div>
+            <h2 class="title">Développement rural</h2>
+            <p class="description">
+               tincidunt ut laoreet dolore magna.
+            </p>
+            <span>nombre ici</span>
+            
+        </div>
+        <div class="card heart">
+            <div class="icon iheart ">
+                <a routerLink="/action">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </a>
+            
+            </div>
+            <h2 class="title">Charité</h2>
+            <p class="description">
+               tincidunt ut laoreet dolore magna.
+            </p>
+            <span>nombre ici</span>
+            
+        </div>
+        <div class="card city">
+            <div class="icon icity">
+                <a routerLink="/action">
+                    <i class="fas fa-city"></i>
+                </a>
+                
+            </div>
+            <h2 class="title">Aménagement</h2>
+            <p class="description">
+               tincidunt ut laoreet dolore magna.
+            </p>
+            <span>nombre ici</span>
+            
+        </div>
+        <div class="card book">
+            <div class="icon ibook">
+                <a routerLink="/action">
+                    <i class="fas fa-book"></i>
+                </a>
+                
+            </div>
+            <h2 class="title">Education</h2>
+            <p class="description">
+               tincidunt ut laoreet dolore magna.
+            </p>
+            <span>nombre ici</span>
+            
+        </div>
+        <div class="card heal">
+            <div class="icon iheal">
+                <a routerLink="/action">
+                    <i class="fas fa-stethoscope"></i>
+                </a>
+              
+            </div>
+            <h2 class="title">Santé</h2>
+            <p class="description">
+               tincidunt ut laoreet dolore magna.
+            </p>
+            <span>nombre ici</span>
+            
+        </div>
+    </section>
+      
     
-        <div class="flex">
-            <div class="result">
-                <h4>Résultats</h4>
-                <app-result [isAdminView]="true"></app-result>
-            </div>
-            <div class="reminder">
-                <app-reminders></app-reminders>
-            </div>
-        </div>
+<!-- on doit avoir nombre limté de description  -->
+      
     </section>
     <section class="side">
         <div class="side-content">
-            <h1>My PC</h1>
+            <h1>Calendrier</h1>
         </div>
         <div class="cal">
             <app-schedule></app-schedule>
         </div>
+        <div class="reminder">
+            <app-reminders [isAdminView]="true"></app-reminders>
+        </div>
     </section>
+    
 </section>

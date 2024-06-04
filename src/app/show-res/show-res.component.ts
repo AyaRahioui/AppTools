@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 
@@ -21,6 +22,12 @@ export class ShowResComponent implements OnInit {
     });
   }
 
+  onPageChange(event: PageEvent) {
+    const startIndex = event.pageIndex * event.pageSize;
+    const endIndex = startIndex + event.pageSize;
+    this.pagedActivityArray = this.activityArray.slice(startIndex, endIndex);
+  }
+
   showPageById(id: string) {
     console.log('Naviguer vers la page avec l\'ID :', id);
     // Implement actual navigation or loading logic here
@@ -29,7 +36,7 @@ export class ShowResComponent implements OnInit {
   submitted: boolean = false;
   showForm: boolean = false;
   months: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
+  pagedActivityArray: any[] = [];
   isUpdateMode = false;
 
   activityArray: any[] = [];
@@ -57,6 +64,11 @@ export class ShowResComponent implements OnInit {
             this.isActivityLoaded = true;
             console.log(activityData);
             this.activityArray = activityData;
+            this.onPageChange({
+              pageIndex: 0, // Set default page index to zero
+              pageSize: 5, // Set default page size
+              length: this.activityArray.length
+            });
           },
           error: (err) => {
             console.error('Error loading activities', err);
@@ -76,16 +88,19 @@ export class ShowResComponent implements OnInit {
       "result_id": resultId,
     };
 
-    this.http.post("http://127.0.0.1:8000/api/activity", bodyData, { responseType: 'text' }).subscribe({
+    this.http.post("http://127.0.0.1:8000/api/activity", bodyData).subscribe({
       next: (activityData: any) => {
         console.log(activityData);
-        this.toast.success('Résultat créé avec succés!');
+        this.toast.success('Activité créée avec succès!');
         this.getAllActivity();
         this.reset();
       },
       error: (err) => {
-        console.error('Error creating activity', err);
-        this.toast.error('Erreur lors de la création de l\'activité.');
+        if (err.status === 422) {
+          this.toast.error('Le nom de l\'activité doit être unique!');
+        } else {
+          this.toast.error('Erreur lors de la création de l\'activité.');
+        }
       }
     });
     this.toggleForm();
@@ -119,16 +134,20 @@ export class ShowResComponent implements OnInit {
     this.http.put(`http://127.0.0.1:8000/api/activity/${this.currentActivityID}`, bodyData).subscribe({
       next: (activityData: any) => {
         console.log(activityData);
-        this.toast.success('Résultat modifié avec succés!');
+        this.toast.success('Activité modifiée avec succès!');
         this.getAllActivity();
         this.toggleForm();
       },
       error: (err) => {
-        console.error('Error updating activity', err);
-        this.toast.error('Erreur lors de la modification de l\'activité.');
+        if (err.status === 422) {
+          this.toast.error('Le nom de l\'activité doit être unique!');
+        } else {
+          this.toast.error('Erreur lors de la modification de l\'activité.');
+        }
       }
     });
   }
+  
 
   save() {
     if (this.isUpdateMode) {
@@ -139,10 +158,10 @@ export class ShowResComponent implements OnInit {
   }
 
   setDelete(data: any) {
-    this.http.delete(`http://127.0.0.1:8000/api/activity/${data.id}`, { responseType: 'text' }).subscribe({
+    this.http.delete(`http://127.0.0.1:8000/api/activity/${data.id}`).subscribe({
       next: (activityData: any) => {
         console.log(activityData);
-        this.toast.success('Résultat supprimé avec succés!');
+        this.toast.success('Activité supprimée avec succès!');
         this.getAllActivity();
         this.reset();
       },
@@ -175,5 +194,8 @@ export class ShowResComponent implements OnInit {
   cancelForm(): void {
     this.showForm = false;
     this.reset();
+  }
+  onSubmit(): void {
+    this.save();
   }
 }

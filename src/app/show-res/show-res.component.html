@@ -1,4 +1,4 @@
-<app-nav-bar-admin></app-nav-bar-admin>
+<app-image-upload></app-image-upload>
 <section class="inner-content">
     <div class="header">
         <div class="titles">
@@ -19,7 +19,7 @@
                         <th scope="col" class="px-6 py-3">Actions</th>
                     </tr>
                 </thead>
-                <h1 *ngIf="!isActivityLoaded">Loading.................</h1>
+                <h3 *ngIf="!isActivityLoaded">Loading.................</h3>
                 <tbody>
                     <tr *ngFor="let activityItem of activityArray" class="table-row">
                         <td class="px-6 py-4 table-cell">{{activityItem.id}}</td>
@@ -27,17 +27,23 @@
                         <td class="px-6 py-4 table-cell">{{activityItem.description}}</td>
                         <td class="px-6 py-4 table-cell">{{activityItem.dueDate}}</td>
                         <td class="px-6 py-4 table-cell">{{activityItem.label}}</td>
-                        <td class="px-6 py-4 table-cell text-left" id="SR" >
+                        <td class="px-6 py-4 table-cell text-left" id="SR">
                             <button class="edit-btn" (click)="setUpdate(activityItem)">
                                 <i class="fas fa-pen-square"></i>
                             </button>
-                            <button  class="delete-btn"  (click)="setDelete(activityItem)">
+                            <button class="delete-btn" (click)="setDelete(activityItem)">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </td>
                     </tr>
                 </tbody>
             </table>
+
+            <mat-paginator [length]="activityArray.length"
+            [pageSize]="5"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event)">
+            </mat-paginator>
         </div>
     </div>
 </section>
@@ -45,38 +51,46 @@
 <div class="backdrop" [ngClass]="{'popup': showForm}" (click)="toggleForm()" *ngIf="showForm">
     <div class="containerForm" [ngClass]="{'popup': showForm}" (click)="$event.stopPropagation()">
         <div class="container">
-            <form (ngSubmit)="save(); submitted = true;" class="submitted" *ngIf="showForm" (click)="$event.stopPropagation()" #activityForm="ngForm">
-                <div >
+            <form (ngSubmit)="save(); submitted = true;" class="submitted" *ngIf="showForm"
+                (click)="$event.stopPropagation()" #activityForm="ngForm">
+                <div>
                     <mat-form-field>
                         <mat-label>Activité</mat-label>
-                        <input matInput type="text" [(ngModel)]="name" id="name" name="name" required pattern="^a\d*$" #nameInput="ngModel">
+                        <input matInput type="text" [(ngModel)]="name" id="name" name="name" required pattern="^a\d*$"
+                            #nameInput="ngModel">
                         <mat-error *ngIf="nameInput.hasError('required')">Ce champ est obligatoire.</mat-error>
                         <mat-error *ngIf="nameInput.hasError('pattern')"> 'a' suivi de chiffres.</mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Libellé</mat-label>
-                        <input matInput type="text" [(ngModel)]="label" id="label" name="label" required #labelInput="ngModel">
+                        <textarea matInput type="text" [(ngModel)]="label" id="label" name="label" required
+                            #labelInput="ngModel"></textarea>
                         <mat-error *ngIf="labelInput.hasError('required')">Ce champ est obligatoire.</mat-error>
                     </mat-form-field>
                 </div>
                 <div>
                     <mat-form-field>
                         <mat-label>Echéance</mat-label>
-                        <mat-select [(ngModel)]="dueDate" id="dueDate" name="dueDate" required #dueDateInput="ngModel" multiple>
+                        <mat-select [(ngModel)]="dueDate" id="dueDate" name="dueDate" required #dueDateInput="ngModel"
+                            multiple>
                             <mat-option *ngFor="let month of months" [value]="month">{{ month }}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="dueDateInput.hasError('required')">Ce champ est obligatoire.</mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Description</mat-label>
-                        <textarea matInput [(ngModel)]="description" name="description" required #descriptionInput="ngModel"></textarea>
+                        <textarea matInput [(ngModel)]="description" name="description" required
+                            #descriptionInput="ngModel"></textarea>
                         <mat-error *ngIf="descriptionInput.hasError('required')">Ce champ est obligatoire.</mat-error>
                     </mat-form-field>
                 </div>
                 <div id="actions">
-                    <button type="submit" class="submit" mat-raised-button color="primary" [disabled]="!activityForm.valid">Sauvegarder</button>
-                    <button type="button" class="reset" mat-raised-button color="primary" (click)="reset()">Réinitialiser</button>
-                    <button type="button" class="reset" mat-raised-button color="primary" (click)="showForm = false">Annuler</button>
+                    <button type="submit" class="submit" mat-raised-button color="primary"
+                        [disabled]="!activityForm.valid">Sauvegarder</button>
+                    <button type="button" class="reset" mat-raised-button color="primary"
+                        (click)="reset()">Réinitialiser</button>
+                    <button type="button" class="reset" mat-raised-button color="primary"
+                        (click)="showForm = false">Annuler</button>
                 </div>
             </form>
         </div>

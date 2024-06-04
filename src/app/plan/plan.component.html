@@ -1,6 +1,3 @@
-
-
-
 <!-- // {
   //     "category": "terrainPlan",
   //     "result": "some result",
@@ -19,24 +16,26 @@
   //     "descriptif": "some description"
   //   } -->
 
- <app-nav-bar-admin></app-nav-bar-admin>
+  <app-image-upload></app-image-upload>
 <section class="inner-content">
 
 
   <div class="tab">
- 
-    <div >
-      <h1>Plan</h1>
+    <div class=" inner-header" id="gris">
+      <nav>
+        <a (click)="toggleView('office')" [ngClass]="{'active': isOfficeVisible}">Catégorie Office</a>
+        <a (click)="toggleView('terrain')" [ngClass]="{'active': isTerrainVisible}">Catégorie Terrain</a>
+      </nav>
+
+
     </div>
+
     <div class="header">
-      <div class="inner-header flex">
-        <nav>
-          <a (click)="toggleView('office')" [ngClass]="{'active': isOfficeVisible}">Catégorie Office</a>
-          <a (click)="toggleView('terrain')" [ngClass]="{'active': isTerrainVisible}">Catégorie Terrain</a>
-        </nav>
-  
+
+      <div class="p">
+        <h1>Plan</h1>
       </div>
-      <div class="titles">
+      <div class="title">
         <button mat-raised-button color="primary" (click)="toggleForm()">Ajouter</button>
       </div>
     </div>
@@ -44,63 +43,63 @@
     <div *ngIf="isOfficeVisible">
       <div class="backdrop" [ngClass]="{'popup': showForm}" (click)="toggleForm()" *ngIf="showForm">
         <div class="containerForm" [ngClass]="{'popup': showForm}">
-          <form (ngSubmit)="save(); submitted = true;" class=" submitted" *ngIf="showForm" (click)="$event.stopPropagation()">
-           
+          <form (ngSubmit)="save(); submitted = true;" class=" submitted" *ngIf="showForm"
+            (click)="$event.stopPropagation()">
+
             <div>
-
               <mat-form-field>
-                  <mat-label>Acteur</mat-label>
-                  <input matInput type="text" [(ngModel)]="actor" id="actor" name="actor">
+                <mat-label>Acteur</mat-label>
+                <mat-select [(ngModel)]="actor" name="actor" required>
+                  <mat-option *ngFor="let user of UsersArray" [value]="user.lastname + ' ' + user.firstname">
+                    id: {{ user.id }}, {{ user.lastname }} {{ user.firstname }}
+                  </mat-option>
+                </mat-select>
               </mat-form-field>
               <mat-form-field>
-                  <mat-label>Description</mat-label>
-                  <textarea matInput [(ngModel)]="descriptif" name="description"></textarea>
+                <mat-label>Description</mat-label>
+                <textarea matInput [(ngModel)]="descriptif" name="description" required></textarea>
               </mat-form-field>
-            
 
 
-          </div>
 
-          <div  id="actions">
-            <button type="submit" class="submit" mat-raised-button color="primary">Sauvegarder</button>
-            <button type="button" class="reset" mat-raised-button color="primary"
+            </div>
+
+            <div id="actions">
+              <button type="submit" class="submit" mat-raised-button color="primary">Sauvegarder</button>
+              <button type="button" class="reset" mat-raised-button color="primary"
                 (click)="reset()">Réinitialiser</button>
-            <button type="button" class="reset" mat-raised-button color="primary"
+              <button type="button" class="reset" mat-raised-button color="primary"
                 (click)="showForm = false">Annuler</button>
-        </div>
+            </div>
 
 
 
           </form>
         </div>
       </div>
-      
+
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase" id="headTab">
             <tr>
+              <th scope="col" class="px-6 py-3">Id</th>
               <th scope="col" class="px-6 py-3">Acteur</th>
-              <th scope="col" class="px-6 py-3">Descriptif</th>
+              <th scope="col" class="px-6 py-3">Description</th>
               <th scope="col" class="px-6 py-3">Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let plan of officePlans">
+              <td class="px-6 py-4">{{ plan.id }}</td>
               <td class="px-6 py-4">{{ plan.actor }}</td>
               <td class="px-6 py-4">{{ plan.descriptif }}</td>
-              <td class="px-6 py-4 text-left">
-                <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="setUpdate(plan)">
+              <td class="px-6 py-4 text-left" id="SR">
+                <button class="edit-btn" (click)="setUpdate(plan)">
                   <i class="fas fa-pen-square"></i>
                 </button>
-                <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="setDelete(plan)">
+                <button class="delete-btn" (click)="setDelete(plan)">
                   <i class="fas fa-trash-alt"></i>
                 </button>
-                <a [routerLink]="['/showRes', plan.id]">
-                  <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                    <i class="fas fa-eye"></i>
-                  </button>
-                </a>
-              </td>
             </tr>
           </tbody>
         </table>
@@ -110,85 +109,97 @@
     <div *ngIf="isTerrainVisible">
       <div class="backdrop" [ngClass]="{'popup': showForm}" (click)="toggleForm()" *ngIf="showForm">
         <div class="containerForm" [ngClass]="{'popup': showForm}">
-          <form (ngSubmit)="save(); submitted = true;" class=" submitted" *ngIf="showForm" (click)="$event.stopPropagation()">
-          
+          <form (ngSubmit)="save(); submitted = true;" class=" submitted" *ngIf="showForm"
+            (click)="$event.stopPropagation()">
+
             <div>
 
               <mat-form-field>
-                  <mat-label>Resultat</mat-label>
-                  <input matInput type="text" [(ngModel)]="result" id="name" name="name">
-              </mat-form-field>
-              <mat-form-field>
-                  <mat-label>Libellé</mat-label>
-                  <input matInput type="text" [(ngModel)]="label" id="label" name="label">
+                <mat-label>Result</mat-label>
+                <mat-select [(ngModel)]="result" name="result" required>
+                  <mat-option *ngFor="let result of ResultsArray" [value]="result.name">{{ result.name }}</mat-option>
+                </mat-select>
               </mat-form-field>
             
+                <mat-form-field>
+                  <mat-label>Libellé</mat-label>
+                  <input matInput type="text" [(ngModel)]="label" id="label" name="label" required>
+                </mat-form-field>
 
 
-          </div>
+
+            </div>
 
 
-          <div>
+            <div>
               <mat-form-field>
-                  <mat-label>Zone d'intervention </mat-label>
-                  <input matInput type="text" [(ngModel)]="zone_intervention" id="zone_intervention" name="zone_intervention">
+                <mat-label>Zone d'intervention </mat-label>
+                <input matInput type="text" [(ngModel)]="zone_intervention" id="zone_intervention"
+                  name="zone_intervention" required>
               </mat-form-field>
-          
-              <mat-form-field >
-                  <mat-label>Description</mat-label>
-                  <textarea matInput [(ngModel)]="descriptif" name="description"></textarea>
+
+              <mat-form-field>
+                <mat-label>Description</mat-label>
+                <textarea matInput [(ngModel)]="descriptif" name="description" required></textarea>
               </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field>
-              <mat-label>Acteur </mat-label>
-              <input matInput type="text" [(ngModel)]="actor" id="actor" name="actor">
-          </mat-form-field>
-          </div>
-          
+            </div>
+            <div>
+              <mat-form-field>
+                <mat-label>Acteur</mat-label>
+                <mat-select [(ngModel)]="actor" name="actor" required>
+                  <mat-option *ngFor="let user of UsersArray" [value]="user.lastname + ' ' + user.firstname">
+                    id: {{ user.id }}, {{ user.lastname }} {{ user.firstname }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
 
 
 
 
-          <div  id="actions">
-            <button type="submit" class="submit" mat-raised-button color="primary">Sauvegarder</button>
-            <button type="button" class="reset" mat-raised-button color="primary"
+
+            <div id="actions">
+              <button type="submit" class="submit" mat-raised-button color="primary">Sauvegarder</button>
+              <button type="button" class="reset" mat-raised-button color="primary"
                 (click)="reset()">Réinitialiser</button>
-            <button type="button" class="reset" mat-raised-button color="primary"
+              <button type="button" class="reset" mat-raised-button color="primary"
                 (click)="showForm = false">Annuler</button>
-        </div>
+            </div>
 
 
 
           </form>
         </div>
       </div>
-      
+
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase" id="headTab">
             <tr>
+              <th scope="col" class="px-6 py-3">Id</th>
               <th scope="col" class="px-6 py-3">Acteur</th>
               <th scope="col" class="px-6 py-3">Résultat</th>
               <th scope="col" class="px-6 py-3">Libellé</th>
-              <th scope="col" class="px-6 py-3">Zone_intervention</th>
-              <th scope="col" class="px-6 py-3">Résultat</th>
+              <th scope="col" class="px-6 py-3">Zone d'intervention</th>
+              <th scope="col" class="px-6 py-3">Description</th>
               <th scope="col" class="px-6 py-3">Actions</th>
             </tr>
           </thead>
           <tbody>
-      
+
             <tr *ngFor="let plan of terrainPlans">
+              <td class="px-6 py-4">{{ plan.id }}</td>
               <td class="px-6 py-4">{{ plan.actor }}</td>
               <td class="px-6 py-4">{{ plan.result }}</td>
               <td class="px-6 py-4">{{ plan.label }}</td>
               <td class="px-6 py-4">{{ plan.zone_intervention }}</td>
               <td class="px-6 py-4">{{ plan.descriptif }}</td>
               <td class="px-6 py-4 text-left">
-                <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="setUpdate(plan)">
+              <td class="px-6 py-4 text-left" id="SR">
+                <button class="edit-btn" (click)="setUpdate(plan)">
                   <i class="fas fa-pen-square"></i>
                 </button>
-                <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="setDelete(plan)">
+                <button class="delete-btn" (click)="setDelete(plan)">
                   <i class="fas fa-trash-alt"></i>
                 </button>
                 <a [routerLink]="['/showRes', plan.id]">
@@ -204,5 +215,3 @@
     </div>
   </div>
 </section>
-
-

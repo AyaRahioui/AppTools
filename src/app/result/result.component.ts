@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
 import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
@@ -10,7 +11,7 @@ import { HotToastService } from '@ngneat/hot-toast';
 })
 
 export class ResultComponent implements OnInit {
-  @Input() isAdminView: boolean = false;
+
   resultForm: FormGroup;
   submitted: boolean = false;
   showForm: boolean = false;
@@ -18,7 +19,7 @@ export class ResultComponent implements OnInit {
   ResultArray: any[] = [];
   isResultLoaded: boolean = false;
   currentResultID: string = "";
-
+  pagedResultArray: any[] = []; 
   constructor(
     private http: HttpClient, 
     private toast: HotToastService,
@@ -31,6 +32,7 @@ export class ResultComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllResult();
+
   }
 
   getAllResult(): void {
@@ -45,11 +47,18 @@ export class ResultComponent implements OnInit {
       "name": this.resultForm?.get('result')?.value
     };
 
-    this.http.post("http://127.0.0.1:8000/api/result", bodyData, { responseType: 'text' }).subscribe(() => {
-      this.toast.success('Résultat créé avec succès!');
-      this.getAllResult();
-      this.resetForm();
-      this.toggleForm();
+    this.http.post("http://127.0.0.1:8000/api/result", bodyData).subscribe({
+      next: () => {
+        this.toast.success('Résultat créé avec succès!');
+        this.getAllResult();
+        this.resetForm();
+        this.toggleForm();
+      },
+      error: (error) => {
+        if (error.status === 422) {
+          this.toast.error('Le nom du résultat doit être unique!');
+        }
+      }
     });
   }
 
@@ -66,11 +75,18 @@ export class ResultComponent implements OnInit {
       "name": this.resultForm?.get('result')?.value
     };
 
-    this.http.put(`http://127.0.0.1:8000/api/result/${this.currentResultID}`, bodyData).subscribe(() => {
-      this.toast.success('Résultat modifié avec succès!');
-      this.getAllResult();
-      this.resetForm();
-      this.toggleForm();
+    this.http.put(`http://127.0.0.1:8000/api/result/${this.currentResultID}`, bodyData).subscribe({
+      next: () => {
+        this.toast.success('Résultat modifié avec succès!');
+        this.getAllResult();
+        this.resetForm();
+        this.toggleForm();
+      },
+      error: (error) => {
+        if (error.status === 422) {
+          this.toast.error('Le nom du résultat doit être unique!');
+        }
+      }
     });
   }
 
@@ -107,12 +123,10 @@ export class ResultComponent implements OnInit {
     }
   }
 
-  // Implement the onSubmit method
   onSubmit(): void {
     this.save();
   }
 
-  // Implement the onReset method
   onReset(): void {
     this.resetForm();
   }

@@ -1,18 +1,24 @@
+
 <nav class="navbar" > <!-- *ngIf="loggedIn"-->
-    <ul class="navbar__menu">
-      <li class="navbar__item">
-       
-        <a routerLink="/user" class="navbar__link"> <img src='./assets/img/home.gif' ><span>Tableau de bord</span></a>
-      </li>
-      <li class="navbar__item">
+  <ul class="navbar__menu">
+    <li class="navbar__item">
      
-        <a routerLink="/schedule" class="navbar__link"><img src='./assets/img/suivi.gif' ><span>Suivi et évaluation</span></a>        
-      </li>
-      <li class="navbar__item">
-        <a href="#" class="navbar__link" (click)="logout($event)"> <img src='./assets/img/logout.gif' ><span>logout</span></a>        
-      </li>
-    </ul>
-  </nav>
-  <!--
-    <a href="https://lordicon.com/">Icons by Lordicon.com</a>
-  -->
+      <a routerLink="/user" class="navbar__link"> <i class="fas fa-house-user" ></i><span>Tableau de bord</span></a>
+    </li>
+    
+     <li class="navbar__item">
+      <a routerLink="/projects" class="navbar__link"> <i class="fas fa-briefcase"></i><span>Projets annuels</span></a>        
+    </li> 
+     <li class="navbar__item">
+   
+      <a routerLink="/evaluate" class="navbar__link"><i class="fas fa-vote-yea"></i><span>Suivi et évaluation</span></a>        
+    </li>
+  
+    <li class="navbar__item">
+      <a href="#" class="navbar__link" (click)="logout($event)"> <i class="fas fa-sign-out-alt"></i><span>Déconnecter</span></a>        
+    </li> 
+  </ul>
+</nav>
+<!--
+  <a href="https://lordicon.com/">Icons by Lordicon.com</a>
+-->
