@@ -19,6 +19,7 @@ import { EvaluateComponent } from './evaluate/evaluate.component';
 import { RemindersComponent } from './reminders/reminders.component';
 import { ActionComponent } from './action/action.component';
 import { ProjectsComponent } from './projects/projects.component';
+import { RoleComponent } from './role/role.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
   { path: 'login', component:LoginComponent },
@@ -29,11 +30,13 @@ const routes: Routes = [
   { path: 'schedule', component:ScheduleComponent ,canActivate: [AfterLoginService]},
   { path: 'evaluate', component:EvaluateComponent ,canActivate: [AfterLoginService] },
   { path: 'reminder', component:RemindersComponent ,canActivate: [AfterLoginService]},
- { path: 'plan/:day', component:PlanComponent,canActivate:[AfterLoginService]},
+  { path: 'projects/:category', component: ProjectsComponent },
+{ path: 'plan/:day', component:PlanComponent,canActivate:[AfterLoginService]},
  { path: 'result', component:ResultComponent  ,canActivate:[AfterLoginService,DirectorAuthGuard]},
   { path: 'user', component: UserComponent , canActivate: [AfterLoginService, UserAuthGuard] },
   { path: 'admin', component: AdminComponent, canActivate: [DirectorAuthGuard] },
   { path: 'showRes/:id', component: ShowResComponent,canActivate: [AfterLoginService, DirectorAuthGuard] },
+  { path: 'role', component: RoleComponent,canActivate: [AfterLoginService, DirectorAuthGuard] },
   { path: '**', redirectTo: '/login' },
 
 ];

@@ -1,7 +1,8 @@
-<app-nav-bar-admin></app-nav-bar-admin>
+<!-- action.component.html (example template) -->
+ <app-image-upload></app-image-upload>
 <section class="dashboard">
     <section class="inner-content">
-        <div class="welcome-container shape-container" >
+        <div class="welcome-container shape-container">
             <div class="box">
                 <span class="border"></span>
                 <h1>Act for
@@ -12,14 +13,11 @@
                 </h1>
             </div>
         </div>
-    
         <div class="flex">
             <div class="result">
                 <h4 id="h4">Résultats</h4>
-                <!-- <app-result /*[isAdminView]="true"></app-result> -->
-                <app-result></app-result> 
+                <app-result></app-result>
             </div>
-
         </div>
     </section>
     <section class="side">
@@ -29,8 +27,26 @@
         <div class="cal">
             <app-schedule></app-schedule>
         </div>
-        <div class="reminder">
-          <app-reminders [isAdminView]="true"></app-reminders>
-      </div>
+
+        <h1>Notifications</h1>
+        <div *ngIf="reminders.length > 0">
+            <div class="card marge">
+                <div *ngFor="let reminder of reminders" class="card-body">
+                    <div class="flex">
+                        <div class="icon">
+                            <img src='./assets/img/reminder.gif' alt="">
+                        </div>
+                        <div class="reminder-details flex">
+                            <span class="feature-name up">{{ getResultName(reminder.result_id) }}-{{ reminder.name
+                                }}</span>
+                            <span class="reminder-time">date: {{ reminder.dueDate }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="reminders.length === 0">
+            <p>Il n'y a pas de notifications</p>
+        </div>
     </section>
 </section>

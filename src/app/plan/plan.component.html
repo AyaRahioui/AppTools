@@ -29,24 +29,43 @@
 
 
     </div>
-
+    <button mat-mini-fab color="primary" (click)="toggleFilter()">
+      <i class="fas fa-filter"></i>
+    </button>
     <div class="header">
 
       <div class="p">
         <h1>Plan</h1>
+      </div>
+      <div *ngIf="show">
+        <mat-form-field>
+          <mat-label>Filtrer par acteur</mat-label>
+          <mat-select [(ngModel)]="filterActor" (selectionChange)="applyFilters()">
+            <mat-option [value]="null">Aucun</mat-option> <!-- Use a distinguishable value -->
+            <mat-option *ngFor="let user of UsersArray" [value]="user.lastname + ' ' + user.firstname">
+              id: {{ user.id }}, {{ user.lastname }} {{ user.firstname }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div class="title">
         <button mat-raised-button color="primary" (click)="toggleForm()">Ajouter</button>
       </div>
     </div>
 
+
+
+    
+
     <div *ngIf="isOfficeVisible">
+
       <div class="backdrop" [ngClass]="{'popup': showForm}" (click)="toggleForm()" *ngIf="showForm">
         <div class="containerForm" [ngClass]="{'popup': showForm}">
           <form (ngSubmit)="save(); submitted = true;" class=" submitted" *ngIf="showForm"
-            (click)="$event.stopPropagation()">
+            (click)="$event.stopPropagation()" #planForm="ngForm">
 
-            <div>
+          
+            <div >
               <mat-form-field>
                 <mat-label>Acteur</mat-label>
                 <mat-select [(ngModel)]="actor" name="actor" required>
@@ -65,9 +84,9 @@
             </div>
 
             <div id="actions">
-              <button type="submit" class="submit" mat-raised-button color="primary">Sauvegarder</button>
+              <button type="submit" class="submit" mat-raised-button color="primary"[disabled]="!planForm.valid">Sauvegarder</button>
               <button type="button" class="reset" mat-raised-button color="primary"
-                (click)="reset()">Réinitialiser</button>
+                (click)="resetForm()">Réinitialiser</button>
               <button type="button" class="reset" mat-raised-button color="primary"
                 (click)="showForm = false">Annuler</button>
             </div>
@@ -88,8 +107,9 @@
               <th scope="col" class="px-6 py-3">Actions</th>
             </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let plan of officePlans">
+          <h2 *ngIf="!isPlanLoaded">Chargement en cours....................</h2>
+          <tbody *ngIf="isPlanLoaded">
+            <tr *ngFor="let plan of filteredOfficePlans">
               <td class="px-6 py-4">{{ plan.id }}</td>
               <td class="px-6 py-4">{{ plan.actor }}</td>
               <td class="px-6 py-4">{{ plan.descriptif }}</td>
@@ -111,9 +131,9 @@
         <div class="containerForm" [ngClass]="{'popup': showForm}">
           <form (ngSubmit)="save(); submitted = true;" class=" submitted" *ngIf="showForm"
             (click)="$event.stopPropagation()">
-
-            <div>
-
+         
+            <div >
+            
               <mat-form-field>
                 <mat-label>Result</mat-label>
                 <mat-select [(ngModel)]="result" name="result" required>
@@ -161,7 +181,7 @@
             <div id="actions">
               <button type="submit" class="submit" mat-raised-button color="primary">Sauvegarder</button>
               <button type="button" class="reset" mat-raised-button color="primary"
-                (click)="reset()">Réinitialiser</button>
+                (click)="resetForm()">Réinitialiser</button>
               <button type="button" class="reset" mat-raised-button color="primary"
                 (click)="showForm = false">Annuler</button>
             </div>
@@ -185,16 +205,17 @@
               <th scope="col" class="px-6 py-3">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <h2 *ngIf="!isPlanLoaded">Chargement en cours....................</h2>
+          <tbody *ngIf="isPlanLoaded">
 
-            <tr *ngFor="let plan of terrainPlans">
+            <tr *ngFor="let plan of filteredTerrainPlans">
               <td class="px-6 py-4">{{ plan.id }}</td>
               <td class="px-6 py-4">{{ plan.actor }}</td>
               <td class="px-6 py-4">{{ plan.result }}</td>
               <td class="px-6 py-4">{{ plan.label }}</td>
               <td class="px-6 py-4">{{ plan.zone_intervention }}</td>
               <td class="px-6 py-4">{{ plan.descriptif }}</td>
-              <td class="px-6 py-4 text-left">
+             
               <td class="px-6 py-4 text-left" id="SR">
                 <button class="edit-btn" (click)="setUpdate(plan)">
                   <i class="fas fa-pen-square"></i>
@@ -202,11 +223,11 @@
                 <button class="delete-btn" (click)="setDelete(plan)">
                   <i class="fas fa-trash-alt"></i>
                 </button>
-                <a [routerLink]="['/showRes', plan.id]">
+                <!-- <a [routerLink]="['/showRes', plan.id]">
                   <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                     <i class="fas fa-eye"></i>
                   </button>
-                </a>
+                </a> -->
               </td>
             </tr>
           </tbody>

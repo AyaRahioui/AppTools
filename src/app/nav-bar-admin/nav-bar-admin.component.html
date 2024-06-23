@@ -5,14 +5,22 @@
        
         <a routerLink="/admin" class="navbar__link"> <i class="fas fa-house-user" ></i><span>Tableau de bord</span></a>
       </li>
+      <li class="navbar__item">
+        <a routerLink="/action" class="navbar__link" > <i class="fas fa-vote-yea"></i><span>Gestion des résultats</span></a>        
+      </li> 
       
        <li class="navbar__item">
-        <a routerLink="/projects" class="navbar__link"> <i class="fas fa-briefcase"></i><span>Projets annuels</span></a>        
+        <a [routerLink]="['/projects', 'pa']" class="navbar__link"> <i class="fas fa-briefcase"></i><span>Projets annuels</span></a>        
       </li> 
        <li class="navbar__item">
      
-        <a routerLink="/evaluate" class="navbar__link"><i class="fas fa-vote-yea"></i><span>Suivi et évaluation</span></a>        
+        <a routerLink="/evaluate" class="navbar__link"><i class="fas fa-tasks"></i><span>Suivi et évaluation</span></a>        
       </li>
+      <li class="navbar__item">
+     
+        <a routerLink="/role" class="navbar__link">   <i class="fas fa-user"></i><span>Gestion d'utilisateur</span></a>        
+      </li>
+
     
       <li class="navbar__item">
         <a href="#" class="navbar__link" (click)="logout($event)"> <i class="fas fa-sign-out-alt"></i><span>Déconnecter</span></a>        

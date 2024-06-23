@@ -47,3 +47,45 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   gap: 45px;
 }
 
+.water{
+  background: linear-gradient(to bottom, #0c5acf, #4da6ffba);
+}
+.seed{
+
+  background: linear-gradient(to bottom, #3a784e, #1db77c);
+}
+.heart{
+  background: linear-gradient(to bottom, #e00ee38f, #fbae38);
+}
+.city{
+  background: linear-gradient(to bottom, #bf4221, #ffb810c7);
+}
+.book{
+  background: linear-gradient(to bottom, #fc9c2b, #309cc1);
+}
+
+.comm{
+  background: linear-gradient(to bottom, #ffc107, #1daecb);
+}
+.heal{
+  background: linear-gradient(to bottom,  #74d5cc,#839503 );
+}
+
+.other{
+  background: linear-gradient(to bottom, #54e7d9, #7e34b7);
+}
+th, td{
+  max-width: 200px; 
+  word-wrap: break-word; 
+  white-space: normal; 
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #f4f4f4;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}

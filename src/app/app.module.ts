@@ -30,7 +30,7 @@ import { ResultComponent } from './result/result.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { MatDialogModule,MatDialogConfig  } from '@angular/material/dialog';
 
-
+import { RoleComponent } from './role/role.component';
 import { ShowResComponent } from './show-res/show-res.component';
 import { ActionComponent } from './action/action.component';
 import { ProjectsComponent } from './projects/projects.component';
@@ -39,13 +39,16 @@ import { EvaluateComponent } from './evaluate/evaluate.component';
 import { RemindersComponent } from './reminders/reminders.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MY_DATE_FORMATS } from './services/mat-date'; 
 import { AuthInterceptor } from './services/auth.interceptor'; 
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 
 @NgModule({
   declarations: [
     AppComponent,
+    RoleComponent,
     LoginComponent,
     SignUpComponent,
     UserComponent,
@@ -85,7 +88,11 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatSlideToggleModule
 
   ],
-  providers: [MatDialogConfig,  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },],
+  providers: [
+    MatDialogConfig,
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

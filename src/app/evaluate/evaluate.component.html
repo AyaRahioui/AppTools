@@ -1,10 +1,29 @@
 <app-image-upload></app-image-upload>
+
 <section class="inner-content">
+   <button mat-mini-fab color="primary" (click)="toggleFilter()">
+    <i class="fas fa-filter"></i>
+  </button>
+
   <div class="heade">
     <div class="inner-header flex">
       <h1>Evaluation</h1>
     </div>
+    <div  *ngIf="showFilter">
+      <mat-form-field >
+        <mat-label>Filtrer par acteur</mat-label>
+        <mat-select [(ngModel)]="filterActor" (selectionChange)="filterByActor()">
+          <mat-option [value]="null">Aucun</mat-option>
+          <mat-option *ngFor="let user of UsersArray" [value]="user.lastname + ' ' + user.firstname">
+            id: {{ user.id }}, {{ user.lastname }} {{ user.firstname }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+     
+    </div>
     <div class="titleE">
+      <button mat-raised-button style="background-color: #edf8ff;" (click)="exportToPdf()">Exporter en PDF</button>
       <button mat-raised-button color="primary" (click)="toggleForm()">Ajouter</button>
     </div>
   </div>
@@ -15,7 +34,7 @@
           <th>ID</th>
           <th>Acteur</th>
           <th>Code</th>
-          <th>Description</th>
+          <th>Déscription</th>
           <th>Libellé</th>
           <th>Plan</th>
           <th>PDF</th>
@@ -23,8 +42,9 @@
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let evaluation of EvaluateArray">
+      <h2 *ngIf="!isEvLoaded">Chargement en cours.................</h2>
+          <tbody *ngIf="isEvLoaded">
+        <tr *ngFor="let evaluation of pagedEvaluateArray">
           <td>{{ evaluation.id }}</td>
           <td>{{ evaluation.actor }}</td>
           <td>{{ evaluation.codeRes }}</td>
@@ -53,11 +73,12 @@
       </tbody>
     </table>
     <mat-paginator [length]="EvaluateArray.length"
-    [pageSize]="5"
-    [pageSizeOptions]="[5, 10, 20]"
-    (page)="onPageChange($event)">
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 20]"
+      (page)="onPageChange($event)">
     </mat-paginator>
   </div>
+  
 </section>
 
 <!-- Modal for viewing photos -->
@@ -100,6 +121,14 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field>
+            <mat-label>Acteur</mat-label>
+            <mat-select [(ngModel)]="actor" name="actor" required>
+              <mat-option *ngFor="let user of UsersArray" [value]="user.lastname + ' ' + user.firstname">
+                id: {{ user.id }}, {{ user.lastname }} {{ user.firstname }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
             <mat-label>Description</mat-label>
             <input matInput [(ngModel)]="descriptif" name="descriptif" required>
           </mat-form-field>
@@ -117,14 +146,7 @@
           </mat-form-field>
         </div>
         <div >
-          <mat-form-field>
-            <mat-label>Acteur</mat-label>
-            <mat-select [(ngModel)]="actor" name="actor" required>
-              <mat-option *ngFor="let user of UsersArray" [value]="user.lastname + ' ' + user.firstname">
-                id: {{ user.id }}, {{ user.lastname }} {{ user.firstname }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+       
           
           <!-- <div class="file-upload">
             <label for="file-input" class="custom-file-upload">Files (PDF, JPG, PNG)</label>
@@ -164,4 +186,9 @@
       </form>
     </div>
   </div>
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Chargement en cours...</p>
+  </div>
+  
 

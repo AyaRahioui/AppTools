@@ -1,7 +1,7 @@
-<app-nav-bar-admin></app-nav-bar-admin>
+<app-image-upload></app-image-upload>
 <section class="dashboard">
     <section class="inner-content">
-        <div class="welcome-container shape-container" >
+        <div class="welcome-container shape-container">
             <div class="box">
                 <span class="border"></span>
                 <h1>Act for
@@ -13,97 +13,126 @@
             </div>
         </div>
         <!-- <h1>Projets</h1> -->
-    <section class="flex gap center">
+        <section class="flex gap center">
+            <div #paCard class="carte water">
+                <div class="iconA iwater">
+                    <a routerLink="/projects/pa">
+                        <i class="fas fa-hand-holding-water"></i>
+                    </a>
+                </div>
+                <h2 class="title">Accès à l'eau potable</h2>
+                <div>
+                    <p class="description"> Fournir de l'eau saine à des communautés vulnérables.
+                    </p>
+                </div>
+                <span>Nombre de projets : {{ nb_init_pa }}</span>
+            </div>
 
-        <div class="card water">
-            <div class="icon iwater ">
-                <a routerLink="/action">
-                    <i class="fas fa-hand-holding-water"></i>
-                </a>
-               
+            <div #pbCard class="carte seed">
+                <div class="iconA iseed">
+                    <a routerLink="/projects/pb">
+                        <i class="fas fa-seedling"></i>
+                    </a>
+                </div>
+                <h2 class="title">Développement rural</h2>
+                <div>
+                    <p class="description"> Infrastructures des communautés vulnérable</p>
+                </div>
+                <span>Nombre de projets : {{ nb_init_pb }}</span>
             </div>
-            <h2 class="title">Forage des puis</h2>
-            <p class="description">
-               tincidunt ut laoreet dolore magna.
-            </p>
-            <span>nombre ici</span>
 
-        </div>
-        <div class="card seed">
-            <div class="icon iseed ">
-                <a routerLink="/action">
-                    <i class="fas fa-seedling"></i>
-                </a>
-                
+
+            <div #pcCard class="carte heart">
+                <div class="iconA iheart ">
+                    <a routerLink="/projects/pd">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </a>
+
+                </div>
+                <h2 class="title">Charité</h2>
+                <p class="description">
+                    Apporter une aide humanitaire et un soutien aux plus démunis.
+                </p>
+                <span>Nombre de projets : {{ nb_init_pc }}
+                </span>
+
             </div>
-            <h2 class="title">Développement rural</h2>
-            <p class="description">
-               tincidunt ut laoreet dolore magna.
-            </p>
-            <span>nombre ici</span>
-            
-        </div>
-        <div class="card heart">
-            <div class="icon iheart ">
-                <a routerLink="/action">
-                    <i class="fas fa-hand-holding-heart"></i>
-                </a>
-            
+            <div #pdCard class="carte city">
+                <div class="iconA icity">
+                    <a routerLink="/projects/pe">
+                        <i class="fas fa-city"></i>
+                    </a>
+                </div>
+                <h2 class="title">Aménagement</h2>
+                <p class="description">
+                    Améliorer les infrastructures urbaines et rurales
+                </p>
+                <span>Nombre de projets : {{ nb_init_pd }}</span>
             </div>
-            <h2 class="title">Charité</h2>
-            <p class="description">
-               tincidunt ut laoreet dolore magna.
-            </p>
-            <span>nombre ici</span>
-            
-        </div>
-        <div class="card city">
-            <div class="icon icity">
-                <a routerLink="/action">
-                    <i class="fas fa-city"></i>
-                </a>
-                
+
+            <div #peCard class="carte book">
+                <div class="iconA ibook">
+                    <a [routerLink]="['/projects', 'pf']">
+                        <i class="fas fa-book"></i>
+                    </a>
+                </div>
+                <h2 class="title">Education</h2>
+                <p class="description">Promouvoir l’éducation et le développement des compétences.
+                </p>
+                <span>Nombre de projets : {{ nb_init_pe }}</span>
             </div>
-            <h2 class="title">Aménagement</h2>
-            <p class="description">
-               tincidunt ut laoreet dolore magna.
-            </p>
-            <span>nombre ici</span>
-            
-        </div>
-        <div class="card book">
-            <div class="icon ibook">
-                <a routerLink="/action">
-                    <i class="fas fa-book"></i>
-                </a>
-                
+
+            <div #pfCard class="carte heal">
+                <div class="iconA iheal">
+                    <a [routerLink]="['/projects', 'pg']">
+                        <i class="fas fa-stethoscope"></i>
+                    </a>
+
+                </div>
+                <h2 class="title">Santé</h2>
+                <p class="description">
+                    Améliorer l'accès aux soins de santé dans les zones les plus défavorisés.
+
+                </p>
+                <span>Nombre de projets : {{ nb_init_pf}}</span>
+
             </div>
-            <h2 class="title">Education</h2>
-            <p class="description">
-               tincidunt ut laoreet dolore magna.
-            </p>
-            <span>nombre ici</span>
-            
-        </div>
-        <div class="card heal">
-            <div class="icon iheal">
-                <a routerLink="/action">
-                    <i class="fas fa-stethoscope"></i>
-                </a>
-              
+            <div #pgCard class="carte comm">
+                <div class="iconA icomm">
+                    <a routerLink="/projects/pc">
+                        <i class="fas fa-handshake"></i>
+                    </a>
+
+                </div>
+                <h2 class="title">Développement communautaire</h2>
+                <p class="description">
+                    Renforcer la résilience des communautés locales.
+
+                </p>
+                <span>Nombre de projets : {{ nb_init_pg }}</span>
+
             </div>
-            <h2 class="title">Santé</h2>
-            <p class="description">
-               tincidunt ut laoreet dolore magna.
-            </p>
-            <span>nombre ici</span>
-            
-        </div>
-    </section>
-      
-    
-<!-- on doit avoir nombre limté de description  -->
-      
+
+            <div #phCard class="carte other">
+                <div class="iconA iother">
+                    <a routerLink="/projects/ph">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </a>
+
+                </div>
+                <h2 class="title">Autre</h2>
+                <p class="description">
+                    Diversifier les actions pour répondre aux besoins spécifiques.
+
+                </p>
+                <span>Nombre de projets : {{ nb_init_ph }}</span>
+
+            </div>
+        </section>
+
+
+        <!-- on doit avoir nombre limté de description  -->
+
     </section>
     <section class="side">
         <div class="side-content">
@@ -116,5 +145,5 @@
             <app-reminders [isAdminView]="true"></app-reminders>
         </div>
     </section>
-    
+
 </section>

@@ -1,0 +1,106 @@
+<app-image-upload></app-image-upload>
+<section class="inner-content">
+    <button mat-raised-button color="primary" (click)="toggleForm()">Ajouter</button>
+    <div class="header">
+      <div class="titles">
+     
+        
+        <h1>Utilisateurs</h1>
+      </div>
+    </div>
+    <div class="tab">
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase" id="headTab">
+            <tr>
+              <th scope="col" class="px-6 py-3">N°</th>
+              <th scope="col" class="px-6 py-3">Prénom</th>
+              <th scope="col" class="px-6 py-3">Nom</th>
+              <th scope="col" class="px-6 py-3">Email</th>
+              <th scope="col" class="px-6 py-3">Rôle</th>
+              <th scope="col" class="px-6 py-3">Actions</th>
+            </tr>
+          </thead>
+          <h2 *ngIf="!isRoleLoaded">Chargement en cours...</h2>
+          <tbody>
+            <tr *ngFor="let roleItem of roleArray">
+              <td class="px-6 py-4">{{ roleItem.id }}</td>
+              <td class="px-6 py-4 up">{{ roleItem.firstname }}</td>
+              <td class="px-6 py-4 up">{{ roleItem.lastname }}</td>
+              <td class="px-6 py-4 up">{{ roleItem.email }}</td>
+              <td class="px-6 py-4 up">{{ roleItem.role }}</td>
+              <td class="px-6 py-4 text-left" id="SR">
+                <button class="edit-btn" (click)="setUpdate(roleItem)">
+                  <i class="fas fa-pen-square"></i>
+                </button>
+                <button class="delete-btn" (click)="setDelete(roleItem)">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  
+  <div class="backdrop" [ngClass]="{'popup': showForm}" (click)="toggleForm()" *ngIf="showForm">
+    <div class="containerForm" [ngClass]="{'popup': showForm}" (click)="$event.stopPropagation()">
+      <div class="container">
+        <form [formGroup]="roleForm" (ngSubmit)="save()" class="submitted" (click)="$event.stopPropagation()" #activityForm="ngForm">
+          <div>
+            <mat-form-field>
+              <mat-label>Prénom</mat-label>
+              <input matInput formControlName="firstname" required>
+              <mat-error *ngIf="roleForm.get('firstname')?.invalid && roleForm.get('firstname')?.touched">
+                Prénom est requis
+              </mat-error>
+            </mat-form-field>
+  
+            <mat-form-field>
+              <mat-label>Nom</mat-label>
+              <input matInput formControlName="lastname" required>
+              <mat-error *ngIf="roleForm.get('lastname')?.invalid && roleForm.get('lastname')?.touched">
+                Nom est requis
+              </mat-error>
+            </mat-form-field>
+  
+          </div>
+          <div>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" required>
+            <mat-error *ngIf="roleForm.get('email')?.invalid && roleForm.get('email')?.touched">
+              Email est requis
+            </mat-error>
+            <mat-error *ngIf="roleForm.get('email')?.invalid && roleForm.get('email')?.touched">
+              Email invalide
+            </mat-error>
+          </mat-form-field>
+       
+  
+          <mat-form-field>
+            <mat-label>Mot de passe</mat-label>
+            <input matInput formControlName="password" type="password" required>
+            <mat-error *ngIf="roleForm.get('password')?.invalid && roleForm.get('password')?.touched">
+              Mot de passe est requis
+            </mat-error>
+          </mat-form-field>
+  
+  
+          </div>
+        
+  
+  
+  
+  
+          <div id="actions">
+            <button type="submit" class="submit" mat-raised-button color="primary" [disabled]="!roleForm.valid">Sauvegarder</button>
+            <button type="button" class="reset" mat-raised-button color="primary" (click)="resetForm()">Réinitialiser</button>
+            <button type="button" class="reset" mat-raised-button color="primary" (click)="toggleForm()">Annuler</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

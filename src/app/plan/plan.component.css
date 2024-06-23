@@ -37,9 +37,14 @@ nav a.active {
     font-family: Arial, sans-serif;
     border-radius: 12px;
     width: 100%;
-    
+    margin-bottom:10px;
 }
 .p{
   margin-top: 28px;
+}
+
+
+.nbBeneficiaryF{
+  margin-left: 28px;
 }
 

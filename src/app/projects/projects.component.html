@@ -1,56 +1,241 @@
-
 <app-image-upload></app-image-upload>
-  <section class="inner-content">
-  
-  
+<section class="inner-content">
     <div class="tab">
-      <div class=" inner-header" id="gris">
-        <nav>
-          <a (click)="toggleView('office')" [ngClass]="{'active': isOfficeVisible}">Forage des puis</a>
-          <a (click)="toggleView('terrain')" [ngClass]="{'active': isTerrainVisible}">Développement rural</a>
-          <a (click)="toggleView('terrain')" [ngClass]="{'active': isTerrainVisible}">Charité</a>
-          <a (click)="toggleView('terrain')" [ngClass]="{'active': isTerrainVisible}">Aménagement</a>
-          <a (click)="toggleView('terrain')" [ngClass]="{'active': isTerrainVisible}">Education</a>
-          <a (click)="toggleView('terrain')" [ngClass]="{'active': isTerrainVisible}">Santé </a>
-        </nav>
-   
-  
-      </div>
-  
-      <div class="header">
-  
-        <div class="p">
-          <h1>Projets</h1>
+        <div class="inner-header" id="gris">
+            <nav>
+                <a [routerLink]="['/projects', 'pa']" [ngClass]="{'active': currentCategory === 'Wash'}">Forage des puits</a>
+                <a [routerLink]="['/projects', 'pb']" [ngClass]="{'active': currentCategory === 'Dev_rural'}">Développement rural</a>
+                <a [routerLink]="['/projects', 'pc']" [ngClass]="{'active': currentCategory === 'Dev_communautaire'}">Développement communautaire</a>
+                <a [routerLink]="['/projects', 'pd']" [ngClass]="{'active': currentCategory === 'Charité'}">Charité</a>
+                <a [routerLink]="['/projects', 'pe']" [ngClass]="{'active': currentCategory === 'Aménagement'}">Aménagement</a>
+                <a [routerLink]="['/projects', 'pf']" [ngClass]="{'active': currentCategory === 'Education'}">Éducation</a>
+                <a [routerLink]="['/projects', 'pg']" [ngClass]="{'active': currentCategory === 'Santé'}">Santé</a>
+                <a [routerLink]="['/projects', 'ph']" [ngClass]="{'active': currentCategory === 'Autre'}">Autre</a>
+              </nav>
         </div>
-        <div class="title">
-          <button mat-raised-button color="primary" (click)="toggleForm()">Ajouter</button>
-        </div>
-      </div>
-  
-      <div *ngIf="isOfficeVisible">
-        <div class="backdrop" [ngClass]="{'popup': showForm}" (click)="toggleForm()" *ngIf="showForm">
-          <div class="containerForm" [ngClass]="{'popup': showForm}">
-   
-          </div>
-        </div>
-  
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase" id="headTab">
-              <tr>
-                <th scope="col" class="px-6 py-3">Id</th>
-                <th scope="col" class="px-6 py-3"></th>
-                <th scope="col" class="px-6 py-3"></th>
-                <th scope="col" class="px-6 py-3"></th>
+     
+    
 
-              </tr>
-            </thead>
-            <tbody>
+
   
-              
-            </tbody>
-          </table>
-        </div>
+            
+        <section class="inner-content">
+            <div class="heade">
+
+                <button mat-mini-fab color="primary" (click)="toggle()">
+                    <i class="fas fa-filter"></i>
+                  </button>
+                  <form (ngSubmit)="applyDateFilter()" #dateFilterForm="ngForm" *ngIf="show">
+                    <div class="filter-container">
+                      <mat-form-field appearance="fill" class="filter-item">
+                        <mat-label>Start Date</mat-label>
+                        <input matInput [matDatepicker]="startPicker" [(ngModel)]="filterStartDate" name="startDate">
+                        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startPicker></mat-datepicker>
+                      </mat-form-field>
+                  
+                      <mat-form-field appearance="fill" class="filter-item">
+                        <mat-label>End Date</mat-label>
+                        <input matInput [matDatepicker]="endPicker" [(ngModel)]="filterEndDate" name="endDate">
+                        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #endPicker></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                  
+                    <div class="button-container">
+                      <button mat-raised-button color="primary" type="submit">Exécuter</button>
+                      <button mat-raised-button color="warn" type="button" (click)="resetDateFilter()">Vider</button>
+                    </div>
+                  </form>
+                  
+                
+                <div class="titleE">
+                    <button mat-raised-button color="primary" (click)="toggleForm()">Ajouter</button>
+                    <button mat-raised-button style="background-color: #edf8ff;" (click)="exportToPdf()">Exporter en PDF</button>
+                </div>
+            </div>
+           
+            <div class="table__body">
+                <div [ngClass]="{
+                    'water': currentCategory === 'Wash',
+                    'seed': currentCategory === 'Dev_rural',
+                    'comm': currentCategory === 'Dev_communautaire',
+                    'heart': currentCategory === 'Charité',
+                    'city': currentCategory === 'Aménagement',
+                    'book': currentCategory === 'Education',
+                    'heal': currentCategory === 'Santé',
+                    'other': currentCategory === 'Autre',
+                }" class="head">{{ currentCategory }}</div>
+                  
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase" id="headTab">
+                        <tr>
+                            <!-- <th scope="col" rowspan="2" class=" py-3">name du Projet</th> -->
+                            <th scope="col" rowspan="2" class=" py-3">Date</th>
+                            <th scope="col" rowspan="2" class=" py-3">ZI</th>
+                            <th scope="col" rowspan="2" class=" py-3">Activité</th>
+                            <th scope="col" colspan="3" class=" py-3">Nb de bénéficiaires</th>
+                            <th scope="col" rowspan="2" class=" py-3">PDF</th>
+                            <th scope="col" rowspan="2" class=" py-3">Photo</th>
+                            <th scope="col" rowspan="2" class=" py-3">Obsérvation</th>
+                            <th scope="col" rowspan="2" class=" py-3">Déscription</th>
+                            <th scope="col" rowspan="2" class=" py-3">Actions</th>
+                        </tr>
+                        <tr>
+                            <th scope="col" class=" py-3">H</th>
+                            <th scope="col" class=" py-3">F</th>
+                            <th scope="col" class=" py-3">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let project of pagedProjectsArray">
+                            <!-- <td>{{ project.name }}</td> -->
+                            <td>{{ project.date }}</td>
+                            <td>{{ project.zi }}</td>
+                            <td>{{ project.activity }}</td>
+                            <td>{{ project.nbBeneficiaryM }}</td>
+                            <td>{{ project.nbBeneficiaryF }}</td>
+                            <td>{{ project.nbBeneficiaryTotal }}</td>
+                            <td>
+                                <ng-container *ngIf="project.pdf">
+                                  <a [href]="project.pdf" target="_blank">View PDF</a>
+                                </ng-container>
+                              </td>
+                              <td>
+                                <ng-container *ngIf="project.imgs && project.imgs.length">
+                                  <a href="javascript:void(0)" (click)="openPhotoModal(project.imgs)">View Photos ({{ project.imgs.length }})</a>
+                                </ng-container>
+                              </td>
+                              
+                              
+                            <td>{{ project.observation }}</td>
+                            <td>{{ project.description }}</td>
+                            <td id="SR">
+                                <button type="button" class="status shipped" aria-label="Edit" (click)="setUpdate(project)">
+                                  <i class="fas fa-pen-square"></i>
+                                </button>
+                                <button type="button" class="status cancelled" aria-label="Delete" (click)="setDelete(project)">
+                                  <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <mat-paginator [length]="projects.length"
+                [pageSize]="pageSize"
+                [pageSizeOptions]="[5, 10, 20]"
+                (page)="onPageChange($event)">
+</mat-paginator>
+            </div>
+        </section>
+    </div>
+</section>
+<div class="backdrop modal" *ngIf="photoModalVisible">
+  <div class="modal-content">
+    <span class="close" (click)="closePhotoModal()">&times;</span>
+    <div class="photos">
+      <div class="photo-container" *ngFor="let photo of currentPhotos">
+        <img [src]="photo" alt="Photo">
+        <button (click)="downloadPhoto(photo)" class="download-button">
+          <i class="fas fa-download"></i>
+        </button>
       </div>
     </div>
-  </section>
+  </div>
+</div>
+  
+            <div class="backdrop" [ngClass]="{'popup': showForm}" (click)="toggleForm()" *ngIf="showForm">
+                <div class="containerForm" [ngClass]="{'popup': showForm}" (click)="$event.stopPropagation()">
+                    <div class="container">
+                        <form (ngSubmit)="save(); submitted = true;" class="submitted" *ngIf="showForm"
+                            (click)="$event.stopPropagation()" #activityForm="ngForm">
+                            <div>
+                                <!-- <mat-form-field>
+                                    <mat-label for="name">name du Projet</mat-label>
+                                    <input matInput type="text" [value]="projectName" id="name" [(ngModel)]="name" readonly />
+                                  </mat-form-field> -->
+                                <mat-form-field>
+                                    <mat-label for="date">Date</mat-label>
+                                    <input matInput [matDatepicker]="picker" id="date" [(ngModel)]="date" name="date" (dateChange)="onDateChange($event)" required />
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+
+                                <mat-form-field>
+                                    <mat-label>Activité</mat-label>
+                                    <input matInput [(ngModel)]="activity" name="activity" required>
+                                  </mat-form-field>
+                            </div>
+                            <div>
+                                <mat-form-field>
+                                    <mat-label for="zi">ZI</mat-label>
+                                    <input matInput type="text" id="zi" [(ngModel)]="zi" name="zi" required />
+                                </mat-form-field>
+                                <mat-form-field>
+                                  <mat-label for="total">Nb total</mat-label>
+                                  <input type="number" [(ngModel)]="nbBeneficiaryTotal" matInput  name="model"
+                                  id="nbBeneficiaryTotal"  name="nbBeneficiaryTotal" required
+                                  [disabled]="true"
+                                  [class.auto-calculated]="!isUpdateMode">
+                              </mat-form-field>
+                                <!-- <mat-form-field>
+                                    <mat-label for="nb_init">nb_init</mat-label>
+                                    <input matInput type="text" id="nb_init" [(ngModel)]="nb_init" name="nb_init" required                              [disabled]="true"
+                                    [class.auto-calculated]="!isUpdateMode" />
+                                </mat-form-field> -->
+                            </div>
+                            <div>
+                                <mat-form-field class="nbBeneficiaryM">
+                                    <mat-label for="nbBeneficiaryM">Bénéficiaires(H)</mat-label>
+                                    <input matInput type="number" id="nbBeneficiaryM" [(ngModel)]="nbBeneficiaryM" name="nbBeneficiaryM" required  inputmode="numeric" pattern="[0-9]*" (input)="calculateTotal()"  min="0" />
+                                </mat-form-field>
+                                <mat-form-field class="nbBeneficiaryF">
+                                    <mat-label for="nbBeneficiaryF">Bénéficiaires(F)</mat-label>
+                                    <input matInput type="number" id="nbBeneficiaryF" [(ngModel)]="nbBeneficiaryF" name="nbBeneficiaryF" required  inputmode="numeric" pattern="[0-9]*" (input)="calculateTotal()"  min="0" />
+                                </mat-form-field>
+                               
+
+                            </div>
+                            <div>
+                                <mat-form-field  class="nbBeneficiaryM">
+                                    <mat-label for="observation">Obsérvation</mat-label>
+                                    <textarea matInput id="observation" [(ngModel)]="observation" name="observation" required></textarea>
+                                </mat-form-field>
+                                <mat-form-field  class="nbBeneficiaryF">
+                                    <mat-label for="description">Déscription</mat-label>
+                                    <textarea matInput id="description" [(ngModel)]="description" name="description" required></textarea>
+                                </mat-form-field>
+                            </div>
+                           
+                            <input type="file" class="file-upload" (change)="onFileSelected($event)" multiple>
+            
+                            <div *ngIf="pdfUrl">
+                                <a [href]="pdfUrl" target="_blank">View PDF</a>
+                            </div>
+
+                            <div id="actions">
+                                <button type="submit" class="submit" mat-raised-button color="primary"
+                                    [disabled]="!activityForm.valid">Sauvegarder</button>
+                                <button type="button" class="reset" mat-raised-button color="primary"
+                                    (click)="reset()">Réinitialiser</button>
+                                <button type="button" class="reset" mat-raised-button color="primary"
+                                    (click)="showForm = false">Annuler</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="loading" class="loading-overlay">
+              <div class="spinner"></div>
+              <p>Chargement en cours...</p>
+            </div>
+            
+
+            
+            
+
+
+
+
+
+            

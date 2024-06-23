@@ -1,8 +1,8 @@
-// reminders.component.ts
 import { Component, Input, OnInit } from '@angular/core';
 import { ReminderService } from '../services/reminder.service';
 import { ResultService } from '../services/result.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-reminders',
@@ -15,7 +15,12 @@ export class RemindersComponent implements OnInit {
   resultNames: { [key: number]: string } = {};
   showAllReminders: boolean = false;
 
-  constructor(private reminderService: ReminderService, private resultService: ResultService, private router: Router) { }
+  constructor(
+    private reminderService: ReminderService,
+    private resultService: ResultService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.loadReminders();
@@ -41,6 +46,11 @@ export class RemindersComponent implements OnInit {
   }
 
   viewDetails(): void {
-    this.router.navigate(['/reminder']); // Adjust the route as per your application
+    const userRole = this.authService.getUserRole();
+    if (userRole === 'admin') {
+      this.router.navigate(['/action']); // Redirect to admin-specific route
+    } else {
+      this.router.navigate(['/reminder']); // Redirect to user-specific route
+    }
   }
 }

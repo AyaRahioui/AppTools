@@ -222,7 +222,7 @@
     transform: scaleY(1);
 }
 
-.card {
+.carte {
 
     border-radius: 40px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -234,7 +234,7 @@
 }
 
 
-.icon {
+.iconA {
     background-color: #f2f2f2;
     border-radius: 50%;
     padding: 21px;
@@ -243,27 +243,10 @@
     left: 50%;
     transform: translateX(-50%);
 }
-.water{
-    background: linear-gradient(to bottom, #0c5acf, #4da6ffba);
-}
-.seed{
-
-    background: linear-gradient(to bottom, #3a784e, #1db77c);
-}
-.heart{
-    background: linear-gradient(to bottom, #e00ee38f, #fbae38);
-}
-.city{
-    background: linear-gradient(to bottom, #bf4221, #ffb810c7);
-}
-.book{
-    background: linear-gradient(to bottom, #fc9c2b, #309cc1);
-}
-
 .icity i{
     color: #cc835b;
 }
-.icon i {
+.iconA i {
     font-size: 40px;
 }
 .iwater i{
@@ -284,17 +267,15 @@
 .ibook i{
     color: #fc9c2b;
 }
-.heal{
-    background: linear-gradient(to bottom,  #74d5cc,#839503 );
-}
+
 .iheal i{
     color: #839503;
 }
 .description {
     color: white;
     font-size: 0.9rem;
-    margin: 0 0 20px 0;
-    padding: 0 10px;
+    margin: 0 0 10px 0;
+    padding: 0 ;
 }
 
 .button {
@@ -315,4 +296,18 @@
 .center{
     margin-left: 60px;
     margin-top: 60px;
+}
+
+
+.icomm i{
+    color:#74b160;
+}
+
+.iother i{
+    color:#5900adcf;
+}
+
+
+.gap span{
+    color:white;
 }
