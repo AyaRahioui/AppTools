@@ -17,6 +17,7 @@ class AuthController extends Controller
     public function __construct()
     {
 //        $this->middleware('auth:api', ['except' => ['login']]);
+    
     }
 
     /**
@@ -195,6 +196,50 @@ return $this->respondWithToken($updatedToken);
     //     return $this->user->all();
     // }
 
+   
+    public function show(string $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        return response()->json($user);
+    }
 
+    public function update(Request $request, string $id)
+    {
+        $validated = $request->validate([
+            'firstname' => 'sometimes|string|min:3',
+            'lastname' => 'sometimes|string|min:3',
+            'email' => 'sometimes|email|unique:users,email,' . $id,
+            'password' => 'sometimes|string|min:6',
+            'role' => 'sometimes|in:admin,user',
+        ]);
+
+        if (isset($validated['password'])) {
+            $validated['password'] = bcrypt($validated['password']);
+        }
+
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        $user->update($validated);
+
+        return response()->json([
+            'message' => 'User successfully updated',
+            'user' => $user
+        ]);
+    }
+
+    public function destroy(string $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        $user->delete();
+        return response()->json(['message' => 'User successfully deleted']);
+    }
 }
-

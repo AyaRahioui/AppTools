@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\EvaluateController;
 use Illuminate\Support\Facades\Validator; 
@@ -44,14 +45,15 @@ Route::group(['middleware' => 'api'], function ($router) {
  //   Route::post('logout', 'AuthController@logout');
    // Route::post('refresh', 'AuthController@refresh');
     //Route::post('me', 'AuthController@me');
-    
     Route::apiResource('/result', ResultController::class);
     Route::apiResource('/user', AuthController::class);
     Route::apiResource('/activity', ActivityController::class);
     Route::apiResource('/plan', PlanController::class);
     Route::apiResource('/evaluate', EvaluateController::class);
+    Route::apiResource('/project', ProjectController::class);
     // Route::get('results','ResultController@getResult');
     // Route::post('addresult', 'ResultController@addResult');
+    Route::get('/projects/{name}', [ProjectController::class, 'getProjectsByName']);
     Route::get('due-reminders', [ActivityController::class, 'getDueReminders']);
 
 

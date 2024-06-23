@@ -5,19 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Projet extends Model
+class Project extends Model
 {
     use HasFactory;
 
-    // Définir les attributs de la table
     protected $fillable = [
-        'nom',
+        'name',
         'date',
+        'zi',
         'activity',
         'nb_init',
-        'nb_beneficiary',
-        'photo',
+        'nbBeneficiaryTotal',
+        'nbBeneficiaryM',
+        'nbBeneficiaryF',
+        'imgs',
         'pdf',
+        'description',
+        'observation'
     ];
 
+    protected $casts = [
+        'imgs' => 'array',
+    ];
 }

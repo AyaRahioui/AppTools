@@ -14,13 +14,18 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->enum('nom', ['Wash', 'Dev_rural','Dev_communautaire', 'Charité','Aménagement','Education','Santé']);
+            $table->enum('name', ['Wash', 'Dev_rural','Dev_communautaire', 'Charité','Aménagement','Education','Santé','Autre']);
             $table->string('date');
+            $table->string('zi');
             $table->string('activity');
             $table->string('nb_init');
-            $table->string('nb_beneficiary');
-            $table->string('photo');
-            $table->string('pdf');
+            $table->string('nbBeneficiaryTotal');
+            $table->string('nbBeneficiaryM');
+            $table->string('nbBeneficiaryF');
+            $table->text('pdf')->nullable(); // Change data type to text
+            $table->json('imgs')->nullable();
+            $table->string('description')->nullable();
+            $table->string('observation')->nullable();
             $table->timestamps();
         });
     }
